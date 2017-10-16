@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_button" kind="class" language="C#" prot="public">
+    <compoundname>Button</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_button_1a1ca1f623a8d5f7e9453eee7698e216ec" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Button.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Button.cs" line="8" column="1" bodyfile="Assets/Button.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_button_1abde2585e345c77634cc81b2f46c24936" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Button.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Button.cs" line="13" column="1" bodyfile="Assets/Button.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>Button</label>
+        <link refid="class_button"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>Button</label>
+        <link refid="class_button"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/Button.cs" line="5" column="1" bodyfile="Assets/Button.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_button_1a1ca1f623a8d5f7e9453eee7698e216ec" prot="private" virt="non-virtual"><scope>Button</scope><name>Start</name></member>
+      <member refid="class_button_1abde2585e345c77634cc81b2f46c24936" prot="private" virt="non-virtual"><scope>Button</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="md__r_e_a_d_m_e" kind="page">
+    <compoundname>md_README</compoundname>
+    <title>README</title>
+    <detaileddescription>
+<para>This README would normally document whatever steps are necessary to get your application up and running.</para><para><heading level="3">What is this repository for?</heading>
+</para><para><itemizedlist>
+<listitem><para>This is the repository for the code for Shrub.</para></listitem><listitem><para>.01a</para></listitem></itemizedlist>
+</para><para><heading level="3">How do I get set up?</heading>
+</para><para><itemizedlist>
+<listitem><para>Summary of set up</para></listitem><listitem><para>Configuration</para></listitem><listitem><para>Dependencies</para></listitem><listitem><para>Database configuration</para></listitem><listitem><para>How to run tests</para></listitem><listitem><para>Deployment instructions</para></listitem></itemizedlist>
+</para><para><heading level="3">Contribution guidelines</heading>
+</para><para><itemizedlist>
+<listitem><para>Writing tests</para></listitem><listitem><para>Code review</para></listitem><listitem><para>Other guidelines</para></listitem></itemizedlist>
+</para><para><heading level="3">Who do I talk to?</heading>
+</para><para><itemizedlist>
+<listitem><para>Repo owner or admin</para></listitem><listitem><para>Other community or team contact </para></listitem></itemizedlist>
+</para>    </detaileddescription>
+  </compounddef>
+</doxygen>

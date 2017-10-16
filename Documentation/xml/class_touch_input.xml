@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_touch_input" kind="class" language="C#" prot="public">
+    <compoundname>TouchInput</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_touch_input_1a66648591e7b990dff543e5dca46c5784" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TouchInput.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/TouchInput.cs" line="8" column="1" bodyfile="Assets/TouchInput.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_touch_input_1a5d0947600e2d12b72c8e76e67c9ceeca" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TouchInput.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/TouchInput.cs" line="13" column="1" bodyfile="Assets/TouchInput.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="122">
+        <label>TouchInput</label>
+        <link refid="class_touch_input"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="123">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="124">
+        <label>TouchInput</label>
+        <link refid="class_touch_input"/>
+        <childnode refid="125" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="125">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/TouchInput.cs" line="5" column="1" bodyfile="Assets/TouchInput.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_touch_input_1a66648591e7b990dff543e5dca46c5784" prot="private" virt="non-virtual"><scope>TouchInput</scope><name>Start</name></member>
+      <member refid="class_touch_input_1a5d0947600e2d12b72c8e76e67c9ceeca" prot="private" virt="non-virtual"><scope>TouchInput</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

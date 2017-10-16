@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>README<sp/>#</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>README<sp/>would<sp/>normally<sp/>document<sp/>whatever<sp/>steps<sp/>are<sp/>necessary<sp/>to<sp/>get<sp/>your<sp/>application<sp/>up<sp/>and<sp/>running.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>What<sp/>is<sp/>this<sp/>repository<sp/>for?<sp/>###</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>This<sp/>is<sp/>the<sp/>repository<sp/>for<sp/>the<sp/>code<sp/>for<sp/>Shrub.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>.01a</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>How<sp/>do<sp/>I<sp/>get<sp/>set<sp/>up?<sp/>###</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>Summary<sp/>of<sp/>set<sp/>up</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Configuration</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Dependencies</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Database<sp/>configuration</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>How<sp/>to<sp/>run<sp/>tests</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Deployment<sp/>instructions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Contribution<sp/>guidelines<sp/>###</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>Writing<sp/>tests</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Code<sp/>review</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Other<sp/>guidelines</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Who<sp/>do<sp/>I<sp/>talk<sp/>to?<sp/>###</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/>Repo<sp/>owner<sp/>or<sp/>admin</highlight></codeline>
+<codeline><highlight class="normal">*<sp/>Other<sp/>community<sp/>or<sp/>team<sp/>contact</highlight></codeline>
+    </programlisting>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>

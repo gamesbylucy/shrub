@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_third_person_camera" kind="class" language="C#" prot="public">
+    <compoundname>ThirdPersonCamera</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_third_person_camera_1a2ef6a7e16a24068ef08990e18630c047" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThirdPersonCamera.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/ThirdPersonCamera.cs" line="8" column="1" bodyfile="Assets/ThirdPersonCamera.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_third_person_camera_1a20036aa1bbcabcff1f0c82d18300355d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThirdPersonCamera.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/ThirdPersonCamera.cs" line="13" column="1" bodyfile="Assets/ThirdPersonCamera.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="118">
+        <label>ThirdPersonCamera</label>
+        <link refid="class_third_person_camera"/>
+        <childnode refid="119" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="119">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="120">
+        <label>ThirdPersonCamera</label>
+        <link refid="class_third_person_camera"/>
+        <childnode refid="121" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="121">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/ThirdPersonCamera.cs" line="5" column="1" bodyfile="Assets/ThirdPersonCamera.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_third_person_camera_1a2ef6a7e16a24068ef08990e18630c047" prot="private" virt="non-virtual"><scope>ThirdPersonCamera</scope><name>Start</name></member>
+      <member refid="class_third_person_camera_1a20036aa1bbcabcff1f0c82d18300355d" prot="private" virt="non-virtual"><scope>ThirdPersonCamera</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

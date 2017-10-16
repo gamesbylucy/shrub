@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_enumerations" kind="class" language="C#" prot="public">
+    <compoundname>Enumerations</compoundname>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_enumerations_1a3822629637240e477854c9552d693417" prot="public" static="no">
+        <name>EntityTypes</name>
+        <enumvalue id="class_enumerations_1a3822629637240e477854c9552d693417ac1bb19b27818343c1926119b958741b5" prot="public">
+          <name>Human</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_enumerations_1a3822629637240e477854c9552d693417a161e7ce7bfdc89ab4b9f52c1d4c94212" prot="public">
+          <name>Animal</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_enumerations_1a3822629637240e477854c9552d693417aaebfe46795575772b7cf413e25caeab9" prot="public">
+          <name>House</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration to support selection of entity types for methods. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Enumerations.cs" line="10" column="1" bodyfile="Assets/Enumerations.cs" bodystart="9" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_enumerations_1ae4fb3bfedbf076bc31c8939baac88745" prot="public" static="no">
+        <name>LandscapeTypes</name>
+        <enumvalue id="class_enumerations_1ae4fb3bfedbf076bc31c8939baac88745a149529f6dcbcc198787e69a11235422e" prot="public">
+          <name>River</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_enumerations_1ae4fb3bfedbf076bc31c8939baac88745aec9903c79dd510ffa43f69ee867a9002" prot="public">
+          <name>Mountain</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_enumerations_1ae4fb3bfedbf076bc31c8939baac88745a4cd8413207629a963225f4314b53adcd" prot="public">
+          <name>Plain</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_enumerations_1ae4fb3bfedbf076bc31c8939baac88745aac12ee4aedb176eb73ce3f6c0d1e9036" prot="public">
+          <name>Forest</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration to support selection of entity types for methods. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Enumerations.cs" line="20" column="1" bodyfile="Assets/Enumerations.cs" bodystart="19" bodyend="25"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Assets/Enumerations.cs" line="4" column="1" bodyfile="Assets/Enumerations.cs" bodystart="4" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_enumerations_1a3822629637240e477854c9552d693417" prot="public" virt="non-virtual"><scope>Enumerations</scope><name>EntityTypes</name></member>
+      <member refid="class_enumerations_1ae4fb3bfedbf076bc31c8939baac88745" prot="public" virt="non-virtual"><scope>Enumerations</scope><name>LandscapeTypes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

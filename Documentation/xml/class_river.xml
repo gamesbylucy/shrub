@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_river" kind="class" language="C#" prot="public">
+    <compoundname>River</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_river_1a993c5fb5b5ec86697e2b2416fd538b27" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void River.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/River.cs" line="8" column="1" bodyfile="Assets/River.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_river_1ad320cf21a361e0223971150bf96dcaa6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void River.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/River.cs" line="13" column="1" bodyfile="Assets/River.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="105">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="104">
+        <label>River</label>
+        <link refid="class_river"/>
+        <childnode refid="105" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="107">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="106">
+        <label>River</label>
+        <link refid="class_river"/>
+        <childnode refid="107" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/River.cs" line="5" column="1" bodyfile="Assets/River.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_river_1a993c5fb5b5ec86697e2b2416fd538b27" prot="private" virt="non-virtual"><scope>River</scope><name>Start</name></member>
+      <member refid="class_river_1ad320cf21a361e0223971150bf96dcaa6" prot="private" virt="non-virtual"><scope>River</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

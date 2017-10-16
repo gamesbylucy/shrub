@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_scene_manager" kind="class" language="C#" prot="public">
+    <compoundname>SceneManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_scene_manager_1abf81d312ff06974f7d47b03870e1578a" prot="private" static="no" mutable="no">
+        <type><ref refid="class_entity_manager" kindref="compound">EntityManager</ref></type>
+        <definition>EntityManager SceneManager.m_entityManager</definition>
+        <argsstring></argsstring>
+        <name>m_entityManager</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>brief The manager class which <ref refid="class_scene_manager" kindref="compound">SceneManager</ref> uses to get entities for the scene. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/SceneManager.cs" line="9" column="1" bodyfile="Assets/SceneManager.cs" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scene_manager_1a801b5db7fc9747ed992992b20d523e8a" prot="private" static="no" mutable="no">
+        <type><ref refid="class_landscape_manager" kindref="compound">LandscapeManager</ref></type>
+        <definition>LandscapeManager SceneManager.m_landscapeManager</definition>
+        <argsstring></argsstring>
+        <name>m_landscapeManager</name>
+        <briefdescription>
+<para>The manager class which <ref refid="class_scene_manager" kindref="compound">SceneManager</ref> uses to get landscapes for the scene. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/SceneManager.cs" line="14" column="1" bodyfile="Assets/SceneManager.cs" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_scene_manager_1a86cc86842e457ed6c9d3268df97e1f9e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SceneManager.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/SceneManager.cs" line="17" column="1" bodyfile="Assets/SceneManager.cs" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scene_manager_1a1700705e183249b1b8c6d95b8d044f69" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SceneManager.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/SceneManager.cs" line="23" column="1" bodyfile="Assets/SceneManager.cs" bodystart="23" bodyend="25"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="108">
+        <label>SceneManager</label>
+        <link refid="class_scene_manager"/>
+        <childnode refid="109" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="109">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="115">
+        <label>LandscapeManager</label>
+        <link refid="class_landscape_manager"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+        <childnode refid="116" relation="usage">
+          <edgelabel>m_landscapeBuilder</edgelabel>
+        </childnode>
+      </node>
+      <node id="117">
+        <label>LandscapeDictionary</label>
+        <link refid="class_landscape_dictionary"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="110">
+        <label>SceneManager</label>
+        <link refid="class_scene_manager"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+        <childnode refid="112" relation="usage">
+          <edgelabel>m_entityManager</edgelabel>
+        </childnode>
+        <childnode refid="115" relation="usage">
+          <edgelabel>m_landscapeManager</edgelabel>
+        </childnode>
+      </node>
+      <node id="113">
+        <label>EntityBuilder</label>
+        <link refid="class_entity_builder"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+        <childnode refid="114" relation="usage">
+          <edgelabel>m_entityDictionary</edgelabel>
+        </childnode>
+      </node>
+      <node id="112">
+        <label>EntityManager</label>
+        <link refid="class_entity_manager"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+        <childnode refid="113" relation="usage">
+          <edgelabel>m_entityBuilder</edgelabel>
+        </childnode>
+      </node>
+      <node id="111">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="116">
+        <label>LandscapeBuilder</label>
+        <link refid="class_landscape_builder"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+        <childnode refid="117" relation="usage">
+          <edgelabel>m_landscapeDictionary</edgelabel>
+        </childnode>
+      </node>
+      <node id="114">
+        <label>EntityDictionary</label>
+        <link refid="class_entity_dictionary"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/SceneManager.cs" line="5" column="1" bodyfile="Assets/SceneManager.cs" bodystart="5" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_scene_manager_1abf81d312ff06974f7d47b03870e1578a" prot="private" virt="non-virtual"><scope>SceneManager</scope><name>m_entityManager</name></member>
+      <member refid="class_scene_manager_1a801b5db7fc9747ed992992b20d523e8a" prot="private" virt="non-virtual"><scope>SceneManager</scope><name>m_landscapeManager</name></member>
+      <member refid="class_scene_manager_1a86cc86842e457ed6c9d3268df97e1f9e" prot="private" virt="non-virtual"><scope>SceneManager</scope><name>Start</name></member>
+      <member refid="class_scene_manager_1a1700705e183249b1b8c6d95b8d044f69" prot="private" virt="non-virtual"><scope>SceneManager</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

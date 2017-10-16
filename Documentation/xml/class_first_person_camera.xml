@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_first_person_camera" kind="class" language="C#" prot="public">
+    <compoundname>FirstPersonCamera</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_first_person_camera_1a78e3e8f10a7ed9b250b656da3dddeda8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FirstPersonCamera.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/FirstPersonCamera.cs" line="8" column="1" bodyfile="Assets/FirstPersonCamera.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_first_person_camera_1a0f4eab1db8fc0b912ca0858b9e723110" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FirstPersonCamera.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/FirstPersonCamera.cs" line="13" column="1" bodyfile="Assets/FirstPersonCamera.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="41">
+        <label>FirstPersonCamera</label>
+        <link refid="class_first_person_camera"/>
+        <childnode refid="42" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="43">
+        <label>FirstPersonCamera</label>
+        <link refid="class_first_person_camera"/>
+        <childnode refid="44" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/FirstPersonCamera.cs" line="5" column="1" bodyfile="Assets/FirstPersonCamera.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_first_person_camera_1a78e3e8f10a7ed9b250b656da3dddeda8" prot="private" virt="non-virtual"><scope>FirstPersonCamera</scope><name>Start</name></member>
+      <member refid="class_first_person_camera_1a0f4eab1db8fc0b912ca0858b9e723110" prot="private" virt="non-virtual"><scope>FirstPersonCamera</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

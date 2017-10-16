@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_mouse_input" kind="class" language="C#" prot="public">
+    <compoundname>MouseInput</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_mouse_input_1a3474cace48c31c81738e8473501bd8e9" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MouseInput.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/MouseInput.cs" line="8" column="1" bodyfile="Assets/MouseInput.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mouse_input_1a54020c3263b04ebec5052eb540d815fe" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MouseInput.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/MouseInput.cs" line="13" column="1" bodyfile="Assets/MouseInput.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="93">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="92">
+        <label>MouseInput</label>
+        <link refid="class_mouse_input"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="95">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="94">
+        <label>MouseInput</label>
+        <link refid="class_mouse_input"/>
+        <childnode refid="95" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/MouseInput.cs" line="5" column="1" bodyfile="Assets/MouseInput.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_mouse_input_1a3474cace48c31c81738e8473501bd8e9" prot="private" virt="non-virtual"><scope>MouseInput</scope><name>Start</name></member>
+      <member refid="class_mouse_input_1a54020c3263b04ebec5052eb540d815fe" prot="private" virt="non-virtual"><scope>MouseInput</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

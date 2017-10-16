@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_entity_manager" kind="class" language="C#" prot="public">
+    <compoundname>EntityManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_entity_manager_1a0a1c610cd196c0832945dfd10009b18f" prot="private" static="no" mutable="no">
+        <type><ref refid="class_entity_builder" kindref="compound">EntityBuilder</ref></type>
+        <definition>EntityBuilder EntityManager.m_entityBuilder</definition>
+        <argsstring></argsstring>
+        <name>m_entityBuilder</name>
+        <briefdescription>
+<para>The builder class which <ref refid="class_entity_manager" kindref="compound">EntityManager</ref> uses to get Entities. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/EntityManager.cs" line="10" column="1" bodyfile="Assets/EntityManager.cs" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_entity_manager_1a3e72b6eace1b9c16b5267ca25a1e4fa8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EntityManager.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/EntityManager.cs" line="13" column="1" bodyfile="Assets/EntityManager.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_entity_manager_1a842b748cc70c7e1366a57df0475b5b96" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EntityManager.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/EntityManager.cs" line="18" column="1" bodyfile="Assets/EntityManager.cs" bodystart="18" bodyend="20"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="33">
+        <label>EntityManager</label>
+        <link refid="class_entity_manager"/>
+        <childnode refid="34" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="37">
+        <label>EntityBuilder</label>
+        <link refid="class_entity_builder"/>
+        <childnode refid="36" relation="public-inheritance">
+        </childnode>
+        <childnode refid="38" relation="usage">
+          <edgelabel>m_entityDictionary</edgelabel>
+        </childnode>
+      </node>
+      <node id="35">
+        <label>EntityManager</label>
+        <link refid="class_entity_manager"/>
+        <childnode refid="36" relation="public-inheritance">
+        </childnode>
+        <childnode refid="37" relation="usage">
+          <edgelabel>m_entityBuilder</edgelabel>
+        </childnode>
+      </node>
+      <node id="36">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="38">
+        <label>EntityDictionary</label>
+        <link refid="class_entity_dictionary"/>
+        <childnode refid="36" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/EntityManager.cs" line="5" column="1" bodyfile="Assets/EntityManager.cs" bodystart="5" bodyend="21"/>
+    <listofallmembers>
+      <member refid="class_entity_manager_1a0a1c610cd196c0832945dfd10009b18f" prot="private" virt="non-virtual"><scope>EntityManager</scope><name>m_entityBuilder</name></member>
+      <member refid="class_entity_manager_1a3e72b6eace1b9c16b5267ca25a1e4fa8" prot="private" virt="non-virtual"><scope>EntityManager</scope><name>Start</name></member>
+      <member refid="class_entity_manager_1a842b748cc70c7e1366a57df0475b5b96" prot="private" virt="non-virtual"><scope>EntityManager</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_landscape_builder" kind="class" language="C#" prot="public">
+    <compoundname>LandscapeBuilder</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_landscape_builder_1ab732ac4dd39fe671a30e3a614a1c65b9" prot="private" static="no" mutable="no">
+        <type><ref refid="class_landscape_dictionary" kindref="compound">LandscapeDictionary</ref></type>
+        <definition>LandscapeDictionary LandscapeBuilder.m_landscapeDictionary</definition>
+        <argsstring></argsstring>
+        <name>m_landscapeDictionary</name>
+        <briefdescription>
+<para>The dictionary of methods by which <ref refid="class_landscape_builder" kindref="compound">LandscapeBuilder</ref> builds <ref refid="class_landscape" kindref="compound">Landscape</ref> objects. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/LandscapeBuilder.cs" line="10" column="1" bodyfile="Assets/LandscapeBuilder.cs" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_landscape_builder_1af6eb2a1ca1357aba9dbbf3ea13ef7a09" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LandscapeBuilder.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/LandscapeBuilder.cs" line="12" column="1" bodyfile="Assets/LandscapeBuilder.cs" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_landscape_builder_1a117e41633ea31c2c25abce388a46465d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LandscapeBuilder.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/LandscapeBuilder.cs" line="17" column="1" bodyfile="Assets/LandscapeBuilder.cs" bodystart="17" bodyend="19"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="74">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="73">
+        <label>LandscapeBuilder</label>
+        <link refid="class_landscape_builder"/>
+        <childnode refid="74" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="77">
+        <label>LandscapeDictionary</label>
+        <link refid="class_landscape_dictionary"/>
+        <childnode refid="76" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="75">
+        <label>LandscapeBuilder</label>
+        <link refid="class_landscape_builder"/>
+        <childnode refid="76" relation="public-inheritance">
+        </childnode>
+        <childnode refid="77" relation="usage">
+          <edgelabel>m_landscapeDictionary</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/LandscapeBuilder.cs" line="5" column="1" bodyfile="Assets/LandscapeBuilder.cs" bodystart="5" bodyend="20"/>
+    <listofallmembers>
+      <member refid="class_landscape_builder_1ab732ac4dd39fe671a30e3a614a1c65b9" prot="private" virt="non-virtual"><scope>LandscapeBuilder</scope><name>m_landscapeDictionary</name></member>
+      <member refid="class_landscape_builder_1af6eb2a1ca1357aba9dbbf3ea13ef7a09" prot="private" virt="non-virtual"><scope>LandscapeBuilder</scope><name>Start</name></member>
+      <member refid="class_landscape_builder_1a117e41633ea31c2c25abce388a46465d" prot="private" virt="non-virtual"><scope>LandscapeBuilder</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_u_i_manager" kind="class" language="C#" prot="public">
+    <compoundname>UIManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_u_i_manager_1a2bd6b48b13b9e14e6292e4b713f59584" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void UIManager.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/UIManager.cs" line="8" column="1" bodyfile="Assets/UIManager.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_u_i_manager_1a6e2db9f2d98e70ccc4864d3af73f1b9e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void UIManager.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/UIManager.cs" line="13" column="1" bodyfile="Assets/UIManager.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="126">
+        <label>UIManager</label>
+        <link refid="class_u_i_manager"/>
+        <childnode refid="127" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="127">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="128">
+        <label>UIManager</label>
+        <link refid="class_u_i_manager"/>
+        <childnode refid="129" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="129">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/UIManager.cs" line="5" column="1" bodyfile="Assets/UIManager.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_u_i_manager_1a2bd6b48b13b9e14e6292e4b713f59584" prot="private" virt="non-virtual"><scope>UIManager</scope><name>Start</name></member>
+      <member refid="class_u_i_manager_1a6e2db9f2d98e70ccc4864d3af73f1b9e" prot="private" virt="non-virtual"><scope>UIManager</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_human" kind="class" language="C#" prot="public">
+    <compoundname>Human</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_human_1ad90a5e6e13a58f4340825d16a75afcf6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Human.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Human.cs" line="8" column="1" bodyfile="Assets/Human.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_human_1a615b9b36e637a70156b748fc56c64b84" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Human.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Human.cs" line="13" column="1" bodyfile="Assets/Human.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="58">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="57">
+        <label>Human</label>
+        <link refid="class_human"/>
+        <childnode refid="58" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="60">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="59">
+        <label>Human</label>
+        <link refid="class_human"/>
+        <childnode refid="60" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/Human.cs" line="5" column="1" bodyfile="Assets/Human.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_human_1ad90a5e6e13a58f4340825d16a75afcf6" prot="private" virt="non-virtual"><scope>Human</scope><name>Start</name></member>
+      <member refid="class_human_1a615b9b36e637a70156b748fc56c64b84" prot="private" virt="non-virtual"><scope>Human</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

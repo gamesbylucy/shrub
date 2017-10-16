@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_landscape_manager" kind="class" language="C#" prot="public">
+    <compoundname>LandscapeManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_landscape_manager_1aa8cb7cbe6921ddb36a5aa73864556a56" prot="private" static="no" mutable="no">
+        <type><ref refid="class_landscape_builder" kindref="compound">LandscapeBuilder</ref></type>
+        <definition>LandscapeBuilder LandscapeManager.m_landscapeBuilder</definition>
+        <argsstring></argsstring>
+        <name>m_landscapeBuilder</name>
+        <briefdescription>
+<para>The builder class which <ref refid="class_landscape_manager" kindref="compound">LandscapeManager</ref> uses to get Landscapes. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/LandscapeManager.cs" line="10" column="1" bodyfile="Assets/LandscapeManager.cs" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_landscape_manager_1a5954eb34a23ac9f409c883b0a4bac033" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LandscapeManager.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/LandscapeManager.cs" line="13" column="1" bodyfile="Assets/LandscapeManager.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_landscape_manager_1afa615d6914c117affbe6b97e0b552502" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LandscapeManager.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/LandscapeManager.cs" line="18" column="1" bodyfile="Assets/LandscapeManager.cs" bodystart="18" bodyend="20"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="82">
+        <label>LandscapeManager</label>
+        <link refid="class_landscape_manager"/>
+        <childnode refid="83" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="84">
+        <label>LandscapeManager</label>
+        <link refid="class_landscape_manager"/>
+        <childnode refid="85" relation="public-inheritance">
+        </childnode>
+        <childnode refid="86" relation="usage">
+          <edgelabel>m_landscapeBuilder</edgelabel>
+        </childnode>
+      </node>
+      <node id="87">
+        <label>LandscapeDictionary</label>
+        <link refid="class_landscape_dictionary"/>
+        <childnode refid="85" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="86">
+        <label>LandscapeBuilder</label>
+        <link refid="class_landscape_builder"/>
+        <childnode refid="85" relation="public-inheritance">
+        </childnode>
+        <childnode refid="87" relation="usage">
+          <edgelabel>m_landscapeDictionary</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/LandscapeManager.cs" line="5" column="1" bodyfile="Assets/LandscapeManager.cs" bodystart="5" bodyend="21"/>
+    <listofallmembers>
+      <member refid="class_landscape_manager_1aa8cb7cbe6921ddb36a5aa73864556a56" prot="private" virt="non-virtual"><scope>LandscapeManager</scope><name>m_landscapeBuilder</name></member>
+      <member refid="class_landscape_manager_1a5954eb34a23ac9f409c883b0a4bac033" prot="private" virt="non-virtual"><scope>LandscapeManager</scope><name>Start</name></member>
+      <member refid="class_landscape_manager_1afa615d6914c117affbe6b97e0b552502" prot="private" virt="non-virtual"><scope>LandscapeManager</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

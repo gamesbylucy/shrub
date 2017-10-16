@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_entity_builder" kind="class" language="C#" prot="public">
+    <compoundname>EntityBuilder</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_entity_builder_1aff80495cf34b829bdb775ef12ad3bf2e" prot="private" static="no" mutable="no">
+        <type><ref refid="class_entity_dictionary" kindref="compound">EntityDictionary</ref></type>
+        <definition>EntityDictionary EntityBuilder.m_entityDictionary</definition>
+        <argsstring></argsstring>
+        <name>m_entityDictionary</name>
+        <briefdescription>
+<para>The dictionary of methods by which <ref refid="class_entity_builder" kindref="compound">EntityBuilder</ref> builds <ref refid="class_entity" kindref="compound">Entity</ref> objects. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/EntityBuilder.cs" line="10" column="1" bodyfile="Assets/EntityBuilder.cs" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_entity_builder_1a2a1ce76c5e5723d2b95bab7df1adb2a5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EntityBuilder.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/EntityBuilder.cs" line="13" column="1" bodyfile="Assets/EntityBuilder.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_entity_builder_1adc89d08acf62e569d3845fe95fe06611" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void EntityBuilder.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/EntityBuilder.cs" line="18" column="1" bodyfile="Assets/EntityBuilder.cs" bodystart="18" bodyend="20"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="24">
+        <label>EntityBuilder</label>
+        <link refid="class_entity_builder"/>
+        <childnode refid="25" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="26">
+        <label>EntityBuilder</label>
+        <link refid="class_entity_builder"/>
+        <childnode refid="27" relation="public-inheritance">
+        </childnode>
+        <childnode refid="28" relation="usage">
+          <edgelabel>m_entityDictionary</edgelabel>
+        </childnode>
+      </node>
+      <node id="27">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="28">
+        <label>EntityDictionary</label>
+        <link refid="class_entity_dictionary"/>
+        <childnode refid="27" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/EntityBuilder.cs" line="5" column="1" bodyfile="Assets/EntityBuilder.cs" bodystart="5" bodyend="21"/>
+    <listofallmembers>
+      <member refid="class_entity_builder_1aff80495cf34b829bdb775ef12ad3bf2e" prot="private" virt="non-virtual"><scope>EntityBuilder</scope><name>m_entityDictionary</name></member>
+      <member refid="class_entity_builder_1a2a1ce76c5e5723d2b95bab7df1adb2a5" prot="private" virt="non-virtual"><scope>EntityBuilder</scope><name>Start</name></member>
+      <member refid="class_entity_builder_1adc89d08acf62e569d3845fe95fe06611" prot="private" virt="non-virtual"><scope>EntityBuilder</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

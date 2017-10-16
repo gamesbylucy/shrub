@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_house" kind="class" language="C#" prot="public">
+    <compoundname>House</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_house_1a15ab6066a77137144da99a8d721fe4e8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void House.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/House.cs" line="8" column="1" bodyfile="Assets/House.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_house_1a685c74a84fbe4dce8482be9cff0a43b8" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void House.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/House.cs" line="13" column="1" bodyfile="Assets/House.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="53">
+        <label>House</label>
+        <link refid="class_house"/>
+        <childnode refid="54" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="55">
+        <label>House</label>
+        <link refid="class_house"/>
+        <childnode refid="56" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/House.cs" line="5" column="1" bodyfile="Assets/House.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_house_1a15ab6066a77137144da99a8d721fe4e8" prot="private" virt="non-virtual"><scope>House</scope><name>Start</name></member>
+      <member refid="class_house_1a685c74a84fbe4dce8482be9cff0a43b8" prot="private" virt="non-virtual"><scope>House</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

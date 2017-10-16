@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_controller_input" kind="class" language="C#" prot="public">
+    <compoundname>ControllerInput</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_controller_input_1a57631a3a94346974f8db61537186f8d4" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ControllerInput.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/ControllerInput.cs" line="8" column="1" bodyfile="Assets/ControllerInput.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_controller_input_1a37b3daf7614d8502a772b6f9a17317ed" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ControllerInput.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/ControllerInput.cs" line="13" column="1" bodyfile="Assets/ControllerInput.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="17">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="16">
+        <label>ControllerInput</label>
+        <link refid="class_controller_input"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="19">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="18">
+        <label>ControllerInput</label>
+        <link refid="class_controller_input"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/ControllerInput.cs" line="5" column="1" bodyfile="Assets/ControllerInput.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_controller_input_1a57631a3a94346974f8db61537186f8d4" prot="private" virt="non-virtual"><scope>ControllerInput</scope><name>Start</name></member>
+      <member refid="class_controller_input_1a37b3daf7614d8502a772b6f9a17317ed" prot="private" virt="non-virtual"><scope>ControllerInput</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

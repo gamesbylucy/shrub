@@ -1,0 +1,5 @@
+##List of things to do##
+-research the creation of a procedural grid for landscape generation
+and determine how to break up landscape generation into discrete
+objects which snap into and modify the procedural grid for collision
+detection.

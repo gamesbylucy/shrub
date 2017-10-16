@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_cinematic_camera" kind="class" language="C#" prot="public">
+    <compoundname>CinematicCamera</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_cinematic_camera_1a7725aed0091d59f81793a0d7625a3e74" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CinematicCamera.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/CinematicCamera.cs" line="8" column="1" bodyfile="Assets/CinematicCamera.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cinematic_camera_1a5716ab0ee2ce8829223cce6670cf5f2f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CinematicCamera.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/CinematicCamera.cs" line="13" column="1" bodyfile="Assets/CinematicCamera.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="12">
+        <label>CinematicCamera</label>
+        <link refid="class_cinematic_camera"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="14">
+        <label>CinematicCamera</label>
+        <link refid="class_cinematic_camera"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/CinematicCamera.cs" line="5" column="1" bodyfile="Assets/CinematicCamera.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_cinematic_camera_1a7725aed0091d59f81793a0d7625a3e74" prot="private" virt="non-virtual"><scope>CinematicCamera</scope><name>Start</name></member>
+      <member refid="class_cinematic_camera_1a5716ab0ee2ce8829223cce6670cf5f2f" prot="private" virt="non-virtual"><scope>CinematicCamera</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

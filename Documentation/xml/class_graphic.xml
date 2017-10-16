@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_graphic" kind="class" language="C#" prot="public">
+    <compoundname>Graphic</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_graphic_1a382da4af4932b2aaffec2d5083527fbd" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Graphic.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Graphic.cs" line="8" column="1" bodyfile="Assets/Graphic.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graphic_1a6d4e14e5b088fdffe79fe221ca2f2a10" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Graphic.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Graphic.cs" line="13" column="1" bodyfile="Assets/Graphic.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="49">
+        <label>Graphic</label>
+        <link refid="class_graphic"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>MonoBehaviour</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="51">
+        <label>Graphic</label>
+        <link refid="class_graphic"/>
+        <childnode refid="52" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>MonoBehaviour</label>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/Graphic.cs" line="5" column="1" bodyfile="Assets/Graphic.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_graphic_1a382da4af4932b2aaffec2d5083527fbd" prot="private" virt="non-virtual"><scope>Graphic</scope><name>Start</name></member>
+      <member refid="class_graphic_1a6d4e14e5b088fdffe79fe221ca2f2a10" prot="private" virt="non-virtual"><scope>Graphic</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

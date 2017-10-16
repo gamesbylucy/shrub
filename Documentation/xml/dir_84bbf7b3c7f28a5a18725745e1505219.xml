@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_84bbf7b3c7f28a5a18725745e1505219" kind="dir">
+    <compoundname>Assets</compoundname>
+    <innerfile refid="_animal_8cs">Animal.cs</innerfile>
+    <innerfile refid="_button_8cs">Button.cs</innerfile>
+    <innerfile refid="_camera_manager_8cs">CameraManager.cs</innerfile>
+    <innerfile refid="_cinematic_camera_8cs">CinematicCamera.cs</innerfile>
+    <innerfile refid="_controller_input_8cs">ControllerInput.cs</innerfile>
+    <innerfile refid="_entity_8cs">Entity.cs</innerfile>
+    <innerfile refid="_entity_builder_8cs">EntityBuilder.cs</innerfile>
+    <innerfile refid="_entity_dictionary_8cs">EntityDictionary.cs</innerfile>
+    <innerfile refid="_entity_manager_8cs">EntityManager.cs</innerfile>
+    <innerfile refid="_enumerations_8cs">Enumerations.cs</innerfile>
+    <innerfile refid="_first_person_camera_8cs">FirstPersonCamera.cs</innerfile>
+    <innerfile refid="_forest_8cs">Forest.cs</innerfile>
+    <innerfile refid="_graphic_8cs">Graphic.cs</innerfile>
+    <innerfile refid="_house_8cs">House.cs</innerfile>
+    <innerfile refid="_human_8cs">Human.cs</innerfile>
+    <innerfile refid="_input_manager_8cs">InputManager.cs</innerfile>
+    <innerfile refid="_isometric_camera_8cs">IsometricCamera.cs</innerfile>
+    <innerfile refid="_landscape_8cs">Landscape.cs</innerfile>
+    <innerfile refid="_landscape_builder_8cs">LandscapeBuilder.cs</innerfile>
+    <innerfile refid="_landscape_dictionary_8cs">LandscapeDictionary.cs</innerfile>
+    <innerfile refid="_landscape_manager_8cs">LandscapeManager.cs</innerfile>
+    <innerfile refid="_mountain_8cs">Mountain.cs</innerfile>
+    <innerfile refid="_mouse_input_8cs">MouseInput.cs</innerfile>
+    <innerfile refid="_panel_8cs">Panel.cs</innerfile>
+    <innerfile refid="_plain_8cs">Plain.cs</innerfile>
+    <innerfile refid="_river_8cs">River.cs</innerfile>
+    <innerfile refid="_scene_manager_8cs">SceneManager.cs</innerfile>
+    <innerfile refid="_third_person_camera_8cs">ThirdPersonCamera.cs</innerfile>
+    <innerfile refid="_touch_input_8cs">TouchInput.cs</innerfile>
+    <innerfile refid="_u_i_manager_8cs">UIManager.cs</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="Assets/"/>
+  </compounddef>
+</doxygen>

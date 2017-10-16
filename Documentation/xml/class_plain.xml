@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_plain" kind="class" language="C#" prot="public">
+    <compoundname>Plain</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MonoBehaviour</basecompoundref>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_plain_1ac16b23286105687d19efee2664036817" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Plain.Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Plain.cs" line="8" column="1" bodyfile="Assets/Plain.cs" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plain_1aa6987996964007fcbaee1c9952d97a48" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Plain.Update</definition>
+        <argsstring>()</argsstring>
+        <name>Update</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="Assets/Plain.cs" line="13" column="1" bodyfile="Assets/Plain.cs" bodystart="13" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="101">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="100">
+        <label>Plain</label>
+        <link refid="class_plain"/>
+        <childnode refid="101" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="103">
+        <label>MonoBehaviour</label>
+      </node>
+      <node id="102">
+        <label>Plain</label>
+        <link refid="class_plain"/>
+        <childnode refid="103" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="Assets/Plain.cs" line="5" column="1" bodyfile="Assets/Plain.cs" bodystart="5" bodyend="16"/>
+    <listofallmembers>
+      <member refid="class_plain_1ac16b23286105687d19efee2664036817" prot="private" virt="non-virtual"><scope>Plain</scope><name>Start</name></member>
+      <member refid="class_plain_1aa6987996964007fcbaee1c9952d97a48" prot="private" virt="non-virtual"><scope>Plain</scope><name>Update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
