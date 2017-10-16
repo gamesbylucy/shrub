@@ -14,5 +14,5 @@ public abstract class LandscapeBuilder : MonoBehaviour {
 		
 	}
 
-    public abstract Landscape get();
+    public abstract GameObject get();
 }
