@@ -188,14 +188,29 @@ public class Experimental_Landscape : MonoBehaviour {
     private void nodeReport()
     {
         string arrayString = "";
+        string neighborString = "";
         for (int i = 0; i < nodes.GetLength(0); i++)
         {
             for (int j = 0; j < nodes.GetLength(1); j++)
             {
-                arrayString += nodes[i, j].vertexIndex;
+                if (nodes[i, j].vertexIndex < 10)
+                {
+                    arrayString += "[" + nodes[i, j].vertexIndex + " ]";
+                }
+                else
+                {
+                    arrayString += "[" + nodes[i, j].vertexIndex + "]";
+                }
+                neighborString += "Node " + nodes[i, j].vertexIndex + "'s neighbors:\n";
+                foreach (Node node in nodes[i, j].neighbors)
+                {
+                    neighborString += "[" + node.vertexIndex + "]";
+                }
+                neighborString += "\n";
             }
             arrayString += "\n";
         }
         Debug.Log(arrayString);
+        Debug.Log(neighborString);
     }
 }
