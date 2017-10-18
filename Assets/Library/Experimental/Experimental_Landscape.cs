@@ -67,30 +67,31 @@ public class Experimental_Landscape : MonoBehaviour {
         vertices = new Vector3[(mapWidth + 1) * (mapHeight + 1)];
         uv = new Vector2[vertices.Length];
         tangents = new Vector4[vertices.Length];
-        nodes = new Node[mapWidth + 1, mapHeight + 1];
+        nodes = new Node[mapHeight + 1, mapWidth + 1];
         Vector4 tangent = new Vector4(1f, 0f, 0f, -1f);
 
         //fill the vertices array with Vector3s according to their positions on the grid
-        for (int i = 0, currentHeight = 0; currentHeight <= mapHeight; currentHeight++)
+        for (int i = 0, y = 0; y <= mapHeight; y++)
         {
-            for (int currentWidth = 0; currentWidth <= mapWidth; currentWidth++, i++)
+            for (int x = 0; x <= mapWidth; x++, i++)
             {
-                vertices[i] = new Vector3(currentWidth, 0, currentHeight);
+                Debug.Log("y: " + y + " x: " + x);
+                vertices[i] = new Vector3(x, 0, y);
                 Node theNode = new Node();
                 theNode.vertexIndex = i;
-                theNode.latitude = currentWidth;
-                theNode.longitude = currentHeight;
-                nodes[currentHeight, currentWidth] = theNode;
-                uv[i] = new Vector2((float)currentWidth / mapWidth, (float)currentHeight / mapHeight);
+                theNode.latitude = x;
+                theNode.longitude = y;
+                nodes[y, x] = theNode;
+                uv[i] = new Vector2((float)x / mapWidth, (float)y / mapHeight);
                 tangents[i] = tangent;
             }
         }
 
-        for(int i = 0; i < nodes.GetLength(0); i++)
+        for(int y = 0; y < nodes.GetLength(0); y++)
         {
-            for (int j = 0; j < nodes.GetLength(1); j++)
+            for (int x = 0; x < nodes.GetLength(1); x++)
             {
-                nodes[i, j].neighbors = getNeighbors(nodes, i, j);
+                nodes[y, x].neighbors = getNeighbors(nodes, y, x);
             }
         }
 
@@ -166,7 +167,7 @@ public class Experimental_Landscape : MonoBehaviour {
         }
     }
 
-    private static List<Node> getNeighbors(Node[ , ] nodes, int x, int y)
+    private static List<Node> getNeighbors(Node[ , ] nodes, int y, int x)
     {
         List<Node> theNodes = new List<Node>();
 
