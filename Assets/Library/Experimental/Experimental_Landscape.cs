@@ -23,6 +23,7 @@ public class Experimental_Landscape : MonoBehaviour {
         public List<Node> neighbors; //TBD neighbor ordering
         public int latitude; //0 to mapHeight
         public int longitude; //0 to mapWidth
+        public Vector3 vertex;
     }
 
     private static int[][] directions = new int[][] 
@@ -81,6 +82,7 @@ public class Experimental_Landscape : MonoBehaviour {
                 theNode.vertexIndex = i;
                 theNode.latitude = x;
                 theNode.longitude = y;
+                theNode.vertex = vertices[i];
                 nodes[y, x] = theNode;
                 uv[i] = new Vector2((float)x / mapWidth, (float)y / mapHeight);
                 tangents[i] = tangent;
@@ -147,8 +149,11 @@ public class Experimental_Landscape : MonoBehaviour {
             }
         }
 
-        m_mesh.triangles = triangles;
+        m_mesh.triangles = triangles;;
+        randomizeElevation(nodes, -20, 20);
+        m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
+        m_mesh.RecalculateTangents();
     }
 
     private void OnDrawGizmos()
@@ -184,6 +189,17 @@ public class Experimental_Landscape : MonoBehaviour {
             }
         }
         return theNodes;
+    }
+
+    private void randomizeElevation(Node[,] nodes, float elevationLowerBound, float elevationUpperBound)
+    {
+        for (int i = 0; i < nodes.GetLength(0); i++)
+        {
+            for (int j = 0; j < nodes.GetLength(1); j++)
+            {
+                //mutate vertex of nodes[i][j]
+            }
+        }
     }
 
     private void nodeReport()
