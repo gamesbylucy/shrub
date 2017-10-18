@@ -70,7 +70,6 @@ public class Experimental_Landscape : MonoBehaviour {
         tangents = new Vector4[vertices.Length];
         nodes = new Node[mapHeight + 1, mapWidth + 1];
         Vector4 tangent = new Vector4(1f, 0f, 0f, -1f);
-
         //fill the vertices array with Vector3s according to their positions on the grid
         for (int i = 0, y = 0; y <= mapHeight; y++)
         {
@@ -89,7 +88,7 @@ public class Experimental_Landscape : MonoBehaviour {
             }
         }
 
-        for(int y = 0; y < nodes.GetLength(0); y++)
+        for (int y = 0; y < nodes.GetLength(0); y++)
         {
             for (int x = 0; x < nodes.GetLength(1); x++)
             {
@@ -149,8 +148,8 @@ public class Experimental_Landscape : MonoBehaviour {
             }
         }
 
-        m_mesh.triangles = triangles;;
-        randomizeElevation(nodes, -20, 20);
+        m_mesh.triangles = triangles;
+        randomizeElevation(nodes, -1f, 1f);
         m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateTangents();
@@ -193,13 +192,15 @@ public class Experimental_Landscape : MonoBehaviour {
 
     private void randomizeElevation(Node[,] nodes, float elevationLowerBound, float elevationUpperBound)
     {
+        Vector3[] theVertices = new Vector3[vertices.Length];
         for (int i = 0; i < nodes.GetLength(0); i++)
         {
             for (int j = 0; j < nodes.GetLength(1); j++)
             {
-                //mutate vertex of nodes[i][j]
+                theVertices[nodes[i, j].vertexIndex] = (nodes[i, j].vertex += new Vector3(0, Random.Range(elevationLowerBound, elevationUpperBound), 0));
             }
         }
+        m_mesh.vertices = theVertices;
     }
 
     private void nodeReport()

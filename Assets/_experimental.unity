@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d45b18dbd0e12e42a3fb8e77443639e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 0
-  mapHeight: 4
+  mapWidth: 10
+  mapHeight: 10
   vertices: []
   uv: []
   tangents: []
