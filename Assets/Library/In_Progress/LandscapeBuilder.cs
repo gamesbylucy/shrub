@@ -32,14 +32,14 @@ public class LandscapeBuilder : MonoBehaviour{
       */
     private static int[][] directions = new int[][] 
     {
-        new int[]{ -1, -1 }, //NW
+        new int[]{ -1, -1 }, //SW
         new int[] { -1, 0 }, //W
-        new int[] { -1, 1 }, //SW
-        new int[] { 0, 1 },  //S
-        new int[] { 1, 1 },  //SE
+        new int[] { -1, 1 }, //NW
+        new int[] { 0, 1 },  //N
+        new int[] { 1, 1 },  //NE
         new int[] { 1, 0 },  //E
-        new int[] { 1, -1 }, //NE
-        new int[] { 0, -1 }  //N
+        new int[] { 1, -1 }, //SE
+        new int[] { 0, -1 }  //S
     };
 
 
@@ -71,9 +71,9 @@ public class LandscapeBuilder : MonoBehaviour{
     {
         string arrayString = "";
         string neighborString = "";
-        for (int i = 0; i < m_nodes.GetLength(0); i++)
+        for (int i = m_nodes.GetLength(0) - 1 ; i >= 0; i--)
         {
-            for (int j = 0; j < m_nodes.GetLength(1); j++)
+            for (int j = 0; j < m_nodes.GetLength(0); j++)
             {
                 if (m_nodes[i, j].vertexIndex < 10)
                 {
