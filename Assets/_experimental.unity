@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 144763904}
   - component: {fileID: 144763903}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1aa39e9f371c264da2ed944b7520189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  landscapeWidth: 3
-  landscapeHeight: 3
+  landscapeWidth: 25
+  landscapeHeight: 25
 --- !u!23 &144763904
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -316,7 +316,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

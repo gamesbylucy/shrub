@@ -23,6 +23,7 @@ public class LandscapeBuilder : MonoBehaviour{
     private int[] m_triangles;
     private Mesh m_mesh;
     private Vector4 m_tangent;
+    private MeshCollider m_meshCollider;
 
     /****************************************************************************************************
      * Static Members
@@ -59,13 +60,14 @@ public class LandscapeBuilder : MonoBehaviour{
         assignNodeNeighbors();
         assignMeshData();
         randomizeElevation(m_nodes, -1f, 1f);
+        assignSharedMesh();
         m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateTangents();
     }
 
     /**
-     * @brief Generates a text based visualization of the node grid and displays a list of each nodes neighbors.
+     * @brief Displays a Debug.Log of the node grid. Displays each nodes neighbors listed clockwise from south to southwest.
      */
     public void nodeReport()
     {
@@ -73,7 +75,7 @@ public class LandscapeBuilder : MonoBehaviour{
         string neighborString = "";
         for (int i = m_nodes.GetLength(0) - 1 ; i >= 0; i--)
         {
-            for (int j = 0; j < m_nodes.GetLength(0); j++)
+            for (int j = 0; j < m_nodes.GetLength(1); j++)
             {
                 if (m_nodes[i, j].vertexIndex < 10)
                 {
@@ -134,6 +136,7 @@ public class LandscapeBuilder : MonoBehaviour{
     {
         //create the mesh
         GetComponent<MeshFilter>().mesh = m_mesh = new Mesh();
+        m_meshCollider = gameObject.AddComponent<MeshCollider>();
         m_mesh.name = "Landscape";
 
         //initialize local variables
@@ -203,6 +206,14 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mesh.uv = m_uv;
         m_mesh.tangents = m_tangents;
         m_mesh.triangles = m_triangles;
+    }
+
+    /**
+     * @brief Assigns the landscape mesh to the mesh colliders shared mesh.
+     */
+    private void assignSharedMesh()
+    {
+        m_meshCollider.sharedMesh = m_mesh;
     }
 
     /**
