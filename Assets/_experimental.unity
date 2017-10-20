@@ -134,15 +134,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 144763902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d45b18dbd0e12e42a3fb8e77443639e, type: 3}
+  m_Script: {fileID: 11500000, guid: e1aa39e9f371c264da2ed944b7520189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 10
-  mapHeight: 10
-  vertices: []
-  uv: []
-  tangents: []
-  triangles: 
+  landscapeWidth: 5
+  landscapeHeight: 5
 --- !u!23 &144763904
 MeshRenderer:
   m_ObjectHideFlags: 0

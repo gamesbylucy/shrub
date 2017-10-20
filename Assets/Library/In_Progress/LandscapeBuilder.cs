@@ -7,11 +7,11 @@ public class LandscapeBuilder : MonoBehaviour{
     /****************************************************************************************************
      * Public Members
      ****************************************************************************************************/
-    public int mapWidth, mapHeight;
 
     /****************************************************************************************************
      * Private Members
      ****************************************************************************************************/
+    private int m_mapWidth, m_mapHeight;
     private Vector3[] m_vertices;
     private Vector2[] m_uv;
     private Vector4[] m_tangents;
@@ -42,6 +42,12 @@ public class LandscapeBuilder : MonoBehaviour{
     /****************************************************************************************************
      * Public Methods
      ****************************************************************************************************/
+
+    public void setDimensions(int width, int height)
+    {
+        m_mapWidth = width;
+        m_mapHeight = height;
+    }
     public void generate()
     {
         initializeMeshData();
@@ -127,11 +133,11 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mesh.name = "Landscape";
 
         //initialize local variables
-        m_vertices = new Vector3[(mapWidth + 1) * (mapHeight + 1)];
+        m_vertices = new Vector3[(m_mapWidth + 1) * (m_mapHeight + 1)];
         m_uv = new Vector2[m_vertices.Length];
         m_tangents = new Vector4[m_vertices.Length];
-        m_nodes = new Node[mapHeight + 1, mapWidth + 1];
-        m_triangles = new int[mapWidth * mapHeight * 6];
+        m_nodes = new Node[m_mapHeight + 1, m_mapWidth + 1];
+        m_triangles = new int[m_mapWidth * m_mapHeight * 6];
         m_tangent = new Vector4(1f, 0f, 0f, -1f);
     }
 
@@ -141,29 +147,29 @@ public class LandscapeBuilder : MonoBehaviour{
     private void calculateMeshData()
     {
         //calculate vertices, node values, UV mapping, and tangents
-        for (int i = 0, y = 0; y <= mapHeight; y++)
+        for (int i = 0, y = 0; y <= m_mapHeight; y++)
         {
-            for (int x = 0; x <= mapWidth; x++, i++)
+            for (int x = 0; x <= m_mapWidth; x++, i++)
             {
                 m_vertices[i] = new Vector3(x, 0, y);
                 Node theNode = new Node();
                 theNode.vertexIndex = i;
                 theNode.vertex = m_vertices[i];
                 m_nodes[y, x] = theNode;
-                m_uv[i] = new Vector2((float)x / mapWidth, (float)y / mapHeight);
+                m_uv[i] = new Vector2((float)x / m_mapWidth, (float)y / m_mapHeight);
                 m_tangents[i] = m_tangent;
             }
         }
 
         //calculate triangles
-        for (int currentTriangle = 0, currentVertex = 0, y = 0; y < mapHeight; y++, currentVertex++)
+        for (int currentTriangle = 0, currentVertex = 0, y = 0; y < m_mapHeight; y++, currentVertex++)
         {
-            for (int x = 0; x < mapWidth; x++, currentTriangle += 6, currentVertex++)
+            for (int x = 0; x < m_mapWidth; x++, currentTriangle += 6, currentVertex++)
             {
                 m_triangles[currentTriangle] = currentVertex; //southwest vertex (vertex 1)
                 m_triangles[currentTriangle + 3] = m_triangles[currentTriangle + 2] = currentVertex + 1; //southeast vertex (vertex 2)
-                m_triangles[currentTriangle + 4] = m_triangles[currentTriangle + 1] = currentVertex + mapWidth + 1; //northwest vertex (vertex 3)
-                m_triangles[currentTriangle + 5] = currentVertex + mapWidth + 2;
+                m_triangles[currentTriangle + 4] = m_triangles[currentTriangle + 1] = currentVertex + m_mapWidth + 1; //northwest vertex (vertex 3)
+                m_triangles[currentTriangle + 5] = currentVertex + m_mapWidth + 2;
             }
         }
     }

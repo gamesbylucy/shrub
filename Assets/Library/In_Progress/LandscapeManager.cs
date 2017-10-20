@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LandscapeManager : MonoBehaviour {
-
+    public int landscapeWidth;
+    public int landscapeHeight;
     /**
      * @brief   The builder class which LandscapeManager uses to get Landscapes
      */
@@ -11,7 +12,8 @@ public class LandscapeManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        m_landscapeBuilder = new LandscapeBuilder();
+        m_landscapeBuilder = gameObject.AddComponent<LandscapeBuilder>();
+        m_landscapeBuilder.setDimensions(landscapeWidth, landscapeHeight);
         m_landscapeBuilder.generate();
         m_landscapeBuilder.nodeReport();
 	}
