@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+/**
+ * @brief Builds the landscape of the Shrub play area.
+ */
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class LandscapeBuilder : MonoBehaviour{
 
@@ -43,13 +47,13 @@ public class LandscapeBuilder : MonoBehaviour{
      * Public Methods
      ****************************************************************************************************/
 
-    public void setDimensions(int width, int height)
+    /**
+     * @brief Calls private methods to build the components of the landscape.
+     */
+    public void build(int width, int height)
     {
         m_mapWidth = width;
         m_mapHeight = height;
-    }
-    public void generate()
-    {
         initializeMeshData();
         calculateMeshData();
         assignNodeNeighbors();
@@ -61,7 +65,7 @@ public class LandscapeBuilder : MonoBehaviour{
     }
 
     /**
-     * Generates a text based visualization of the node grid and displays a list of each nodes neighbors.
+     * @brief Generates a text based visualization of the node grid and displays a list of each nodes neighbors.
      */
     public void nodeReport()
     {
@@ -166,9 +170,9 @@ public class LandscapeBuilder : MonoBehaviour{
         {
             for (int x = 0; x < m_mapWidth; x++, currentTriangle += 6, currentVertex++)
             {
-                m_triangles[currentTriangle] = currentVertex; //southwest vertex (vertex 1)
-                m_triangles[currentTriangle + 3] = m_triangles[currentTriangle + 2] = currentVertex + 1; //southeast vertex (vertex 2)
-                m_triangles[currentTriangle + 4] = m_triangles[currentTriangle + 1] = currentVertex + m_mapWidth + 1; //northwest vertex (vertex 3)
+                m_triangles[currentTriangle] = currentVertex;
+                m_triangles[currentTriangle + 3] = m_triangles[currentTriangle + 2] = currentVertex + 1;
+                m_triangles[currentTriangle + 4] = m_triangles[currentTriangle + 1] = currentVertex + m_mapWidth + 1; 
                 m_triangles[currentTriangle + 5] = currentVertex + m_mapWidth + 2;
             }
         }
@@ -207,7 +211,7 @@ public class LandscapeBuilder : MonoBehaviour{
      * @param y The y coordinate of the node.
      * @param x The x coordinate of the node.
      */
-    private static List<Node> getNeighbors(Node[ , ] nodes, int y, int x)
+    private List<Node> getNeighbors(Node[ , ] nodes, int y, int x)
     {
         List<Node> theNodes = new List<Node>();
 
@@ -227,7 +231,7 @@ public class LandscapeBuilder : MonoBehaviour{
     }
 
     /**
-     * Randomizes the elevation of all landscape nodes.
+     * @brief Randomizes the elevation of all landscape nodes.
      */
     private void randomizeElevation(Node[,] nodes, float elevationLowerBound, float elevationUpperBound)
     {
@@ -271,7 +275,7 @@ public class LandscapeBuilder : MonoBehaviour{
      * Inner Classes
      ****************************************************************************************************/
     /**
-     * Stores data about nodes in the mesh to facilitate landscape generation algorithms.
+     * @brief Stores data about nodes in the mesh to facilitate landscape generation algorithms.
      */
     private class Node
     {

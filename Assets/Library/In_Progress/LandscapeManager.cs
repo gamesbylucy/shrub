@@ -13,8 +13,7 @@ public class LandscapeManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         m_landscapeBuilder = gameObject.AddComponent<LandscapeBuilder>();
-        m_landscapeBuilder.setDimensions(landscapeWidth, landscapeHeight);
-        m_landscapeBuilder.generate();
+        m_landscapeBuilder.build(landscapeWidth, landscapeHeight);
         m_landscapeBuilder.nodeReport();
 	}
 	
