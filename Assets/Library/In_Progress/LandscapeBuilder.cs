@@ -56,7 +56,7 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mapWidth = width;
         m_mapHeight = height;
         initializeMeshData();
-        calculateMeshData();
+        calculateSquareMeshData();
         assignNodeNeighbors();
         assignMeshData();
         randomizeElevation(m_nodes, -1f, 1f);
@@ -149,9 +149,9 @@ public class LandscapeBuilder : MonoBehaviour{
     }
 
     /**
-     * @brief Calculates the vertices, node values, UV mapping, tangents, and triangles of the mesh.
+     * @brief Calculates the vertices, node values, UV mapping, tangents, and triangles of a square mesh.
      */
-    private void calculateMeshData()
+    private void calculateSquareMeshData()
     {
         //calculate vertices, node values, UV mapping, and tangents
         for (int i = 0, y = 0; y <= m_mapHeight; y++)
