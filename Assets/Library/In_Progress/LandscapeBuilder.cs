@@ -72,7 +72,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     public void seedPopulation(Enumerations.SeedTypes seedType)
     {
-        float populatedNodeProbability = .136f;
+        float populatedNodeProbability = .5f;
         switch (seedType)
         {
             case Enumerations.SeedTypes.Random:
@@ -353,9 +353,10 @@ public class LandscapeBuilder : MonoBehaviour{
      */
     private class Node
     {
-        public bool isStabilized = false;
-        public bool isBorder = false;
+        //public bool isStabilized = false;
+        //public bool isBorder = false;
         public bool isPopulated = false;
+        public bool isPopulatedNextTick = false;
         public int vertexIndex; //index of associated vertex
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
@@ -367,7 +368,16 @@ public class LandscapeBuilder : MonoBehaviour{
          */
         public void tick()
         {
-            if (isStabilized != true)
+            if (isPopulatedNextTick == true)
+            {
+                isPopulated = true;
+                isPopulatedNextTick = false;
+            }
+            else
+            {
+                isPopulated = false;
+            }
+            //if (isStabilized != true)
             {
                 int populatedNeighborCount = 0;
                 if (isPopulated) //node is alive
@@ -384,34 +394,34 @@ public class LandscapeBuilder : MonoBehaviour{
                     if (populatedNeighborCount < 2 || populatedNeighborCount > 3)
                     {
                         //node becomes unpopulated
-                        isPopulated = false;
+                        isPopulatedNextTick = false;
                     }
                     else if (populatedNeighborCount == 2)
                     {
-                        stabilizationCounter++;
-                        if (stabilizationCounter >= 5)
+                        //stabilizationCounter++;
+                        //if (stabilizationCounter >= 5)
                         {
-                            isStabilized = true;
-                            stabilizationCounter = 0;
-                            GameObject village = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                            village.transform.localScale = new Vector3(.5f, 1f, .5f);
-                            village.transform.position = new Vector3(vertex.x, .9f, vertex.z);
+                            //isStabilized = true;
+                            //stabilizationCounter = 0;
+                            //ameObject village = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            //village.transform.localScale = new Vector3(.5f, 1f, .5f);
+                            //village.transform.position = new Vector3(vertex.x, .9f, vertex.z);
                         }
                     }
-                    else if (stabilizationCounter != 0)
+                    //else if (stabilizationCounter != 0)
                     {
-                        stabilizationCounter--;
+                        //stabilizationCounter--;
                     }
                 }
                 else //node is dead
                 {
-                    isBorder = false;
+                    //isBorder = false;
                     foreach (Node neighbor in neighbors)
                     {
-                        if (neighbor.isStabilized)
-                        {
-                            isBorder = true;
-                        }
+                        //if (neighbor.isStabilized)
+                        //{
+                            //isBorder = true;
+                        //}
                         
                         //get number of populated neighbors
                         if (neighbor.isPopulated)
@@ -419,10 +429,10 @@ public class LandscapeBuilder : MonoBehaviour{
                             populatedNeighborCount++;
                         }
                     }
-                    if (populatedNeighborCount == 3 && isBorder == false)
+                    if (populatedNeighborCount == 3 /*&& isBorder == false*/)
                     {
                         //cell becomes populated
-                        isPopulated = true;
+                        isPopulatedNextTick = true;
                     }
                 }
             }
