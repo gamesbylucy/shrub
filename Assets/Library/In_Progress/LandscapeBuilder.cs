@@ -43,6 +43,9 @@ public class LandscapeBuilder : MonoBehaviour{
         new int[] { 0, -1 }  //S
     };
 
+    private static System.Random random = new System.Random(System.DateTime.Now.Millisecond);
+    
+
 
     /****************************************************************************************************
      * Public Methods
@@ -69,13 +72,13 @@ public class LandscapeBuilder : MonoBehaviour{
 
     public void seedPopulation(Enumerations.SeedTypes seedType)
     {
-        float populatedNodeProbability = .2f;
+        float populatedNodeProbability = .136f;
         switch (seedType)
         {
             case Enumerations.SeedTypes.Random:
                 foreach (Node node in m_nodes)
                 {
-                    if (Random.Range(0f, 1f) < populatedNodeProbability)
+                    if ((float)random.NextDouble() < populatedNodeProbability)
                     {
                         node.isPopulated = true;
                     }
@@ -135,7 +138,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void Start()
     {
-        InvokeRepeating("stepSimulation", .09f, .09f);
+        InvokeRepeating("stepSimulation", .15f, .15f);
     }
 
     private void Update()
@@ -302,9 +305,12 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void tickNodes()
     {
-        foreach (Node node in m_nodes)
+        if (m_nodes != null)
         {
-            node.tick();
+            foreach (Node node in m_nodes)
+            {
+                node.tick();
+            }
         }
     }
 
@@ -347,48 +353,77 @@ public class LandscapeBuilder : MonoBehaviour{
      */
     private class Node
     {
+        public bool isStabilized = false;
+        public bool isBorder = false;
         public bool isPopulated = false;
         public int vertexIndex; //index of associated vertex
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
+
+        private int stabilizationCounter = 0;
 
         /**
          * @brief Determine the nodes state the next frame depending on the status of the node.
          */
         public void tick()
         {
-            int populatedNeighborCount = 0;
-            if (isPopulated) //node is alive
+            if (isStabilized != true)
             {
-                foreach (Node neighbor in neighbors)
+                int populatedNeighborCount = 0;
+                if (isPopulated) //node is alive
                 {
-                    //get number of populated neighbors
-                    if (neighbor.isPopulated)
+                    foreach (Node neighbor in neighbors)
                     {
-                        populatedNeighborCount++;
+                        //get number of populated neighbors
+                        if (neighbor.isPopulated)
+                        {
+                            populatedNeighborCount++;
+                        }
                     }
-                }
 
-                if (populatedNeighborCount < 2 || populatedNeighborCount > 3)
-                {
-                    //node becomes unpopulated
-                    isPopulated = false;
-                }
-            }
-            else //node is dead
-            {
-                foreach (Node neighbor in neighbors)
-                {
-                    //get number of populated neighbors
-                    if (neighbor.isPopulated)
+                    if (populatedNeighborCount < 2 || populatedNeighborCount > 3)
                     {
-                        populatedNeighborCount++;
+                        //node becomes unpopulated
+                        isPopulated = false;
+                    }
+                    else if (populatedNeighborCount == 2)
+                    {
+                        stabilizationCounter++;
+                        if (stabilizationCounter >= 5)
+                        {
+                            isStabilized = true;
+                            stabilizationCounter = 0;
+                            GameObject village = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            village.transform.localScale = new Vector3(.5f, 1f, .5f);
+                            village.transform.position = new Vector3(vertex.x, .9f, vertex.z);
+                        }
+                    }
+                    else if (stabilizationCounter != 0)
+                    {
+                        stabilizationCounter--;
                     }
                 }
-                if (populatedNeighborCount == 3)
+                else //node is dead
                 {
-                    //cell becomes populated
-                    isPopulated = true;
+                    isBorder = false;
+                    foreach (Node neighbor in neighbors)
+                    {
+                        if (neighbor.isStabilized)
+                        {
+                            isBorder = true;
+                        }
+                        
+                        //get number of populated neighbors
+                        if (neighbor.isPopulated)
+                        {
+                            populatedNeighborCount++;
+                        }
+                    }
+                    if (populatedNeighborCount == 3 && isBorder == false)
+                    {
+                        //cell becomes populated
+                        isPopulated = true;
+                    }
                 }
             }
         }
