@@ -59,11 +59,34 @@ public class LandscapeBuilder : MonoBehaviour{
         calculateSquareMeshData();
         assignNodeNeighbors();
         assignMeshData();
-        randomizeElevation(m_nodes, -1f, 1f);
         assignSharedMesh();
+        seedPopulation(Enumerations.SeedTypes.Random);
+        updateElevationByPopulation(m_nodes);
         m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateTangents();
+    }
+
+    public void seedPopulation(Enumerations.SeedTypes seedType)
+    {
+        Debug.Log("Seeding population.");
+        float populatedNodeProbability = .5f;
+        switch (seedType)
+        {
+            case Enumerations.SeedTypes.Random:
+                foreach (Node node in m_nodes)
+                {
+                    if (Random.Range(0, 1) < populatedNodeProbability)
+                    {
+                        node.isPopulated = true;
+                    }
+                }
+                break;
+            case Enumerations.SeedTypes.Stable:
+                break;
+            case Enumerations.SeedTypes.Chaotic:
+                break;
+        }
     }
 
     /**
@@ -118,7 +141,11 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void Update()
     {
-
+        foreach(Node node in m_nodes)
+        {
+            node.tick();
+        }
+        updateElevationByPopulation(m_nodes);
     }
 
     private void FixedUpdate()
@@ -257,6 +284,23 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mesh.vertices = theVertices;
     }
 
+    private void updateElevationByPopulation(Node[,] nodes)
+    {
+        Debug.Log("Updating elevation by population.");
+        foreach (Node node in m_nodes)
+        {
+            Vector3 theVertex = m_vertices[node.vertexIndex];
+            if (node.isPopulated == true)
+            {
+                theVertex = new Vector3(theVertex.x, 5, theVertex.y);
+            }
+            else
+            {
+                theVertex = new Vector3(theVertex.x, 0, theVertex.y);
+            }
+        }
+    }
+
 
 
     /****************************************************************************************************
@@ -290,8 +334,42 @@ public class LandscapeBuilder : MonoBehaviour{
      */
     private class Node
     {
+        public bool isPopulated = false;
         public int vertexIndex; //index of associated vertex
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
+
+        /**
+         * @brief Determine the nodes state the next frame depending on the status of the node.
+         */
+        public void tick()
+        {
+            int populatedNeighborCount = 0;
+            if (isPopulated) //node is alive
+            {
+                foreach (Node neighbor in neighbors)
+                {
+                    //get number of populated neighbors
+                    if (neighbor.isPopulated)
+                    {
+                        populatedNeighborCount++;
+                    }
+                }
+
+                if (populatedNeighborCount < 2 || populatedNeighborCount > 3)
+                {
+                    //node becomes unpopulated
+                    isPopulated = false;
+                }
+            }
+            else //node is dead
+            {
+                if (populatedNeighborCount == 3)
+                {
+                    //cell becomes populated
+                    isPopulated = true;
+                }
+            }
+        }
     }
 }

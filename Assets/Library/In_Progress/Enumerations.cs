@@ -4,6 +4,16 @@ using System.Collections.Generic;
 public static class Enumerations {
 
     /**
+     * @brief Enumeration to support the seeding of the node population.
+     */
+    public enum SeedTypes
+    {
+        Random = 0,
+        Stable = 1,
+        Chaotic = 2
+    }
+
+    /**
      * @brief   Enumeration to support selection of entity types for methods
      */
     public enum EntityTypes
