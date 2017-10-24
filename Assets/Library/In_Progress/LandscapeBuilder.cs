@@ -70,13 +70,13 @@ public class LandscapeBuilder : MonoBehaviour{
     public void seedPopulation(Enumerations.SeedTypes seedType)
     {
         Debug.Log("Seeding population.");
-        float populatedNodeProbability = .5f;
+        float populatedNodeProbability = .7f;
         switch (seedType)
         {
             case Enumerations.SeedTypes.Random:
                 foreach (Node node in m_nodes)
                 {
-                    if (Random.Range(0, 1) < populatedNodeProbability)
+                    if (Random.Range(0f, 1f) < populatedNodeProbability)
                     {
                         node.isPopulated = true;
                     }
@@ -287,18 +287,25 @@ public class LandscapeBuilder : MonoBehaviour{
     private void updateElevationByPopulation(Node[,] nodes)
     {
         Debug.Log("Updating elevation by population.");
+        Vector3[] theVertices = new Vector3[m_vertices.Length];
         foreach (Node node in m_nodes)
         {
-            Vector3 theVertex = m_vertices[node.vertexIndex];
             if (node.isPopulated == true)
             {
-                theVertex = new Vector3(theVertex.x, 5, theVertex.y);
+                Debug.Log("Node is populated. Moving mesh elevation up.");
+                Vector3 theVertex = m_vertices[node.vertexIndex];
+                theVertex.y = 1;
+                theVertices[node.vertexIndex] = theVertex;
             }
             else
             {
-                theVertex = new Vector3(theVertex.x, 0, theVertex.y);
+                Debug.Log("Node is unpopulated. Moving elevation down.");
+                Vector3 theVertex = m_vertices[node.vertexIndex];
+                theVertex.y = -1;
+                theVertices[node.vertexIndex] = theVertex;
             }
         }
+        m_mesh.vertices = theVertices;
     }
 
 
