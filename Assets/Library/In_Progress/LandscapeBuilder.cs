@@ -61,7 +61,7 @@ public class LandscapeBuilder : MonoBehaviour{
         assignMeshData();
         assignSharedMesh();
         seedPopulation(Enumerations.SeedTypes.Random);
-        updateElevationByPopulation(m_nodes);
+        updateElevationByPopulation();
         m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateTangents();
@@ -69,8 +69,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     public void seedPopulation(Enumerations.SeedTypes seedType)
     {
-        Debug.Log("Seeding population.");
-        float populatedNodeProbability = .7f;
+        float populatedNodeProbability = .2f;
         switch (seedType)
         {
             case Enumerations.SeedTypes.Random:
@@ -136,16 +135,12 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void Start()
     {
-
+        InvokeRepeating("stepSimulation", .09f, .09f);
     }
 
     private void Update()
     {
-        foreach(Node node in m_nodes)
-        {
-            node.tick();
-        }
-        updateElevationByPopulation(m_nodes);
+        
     }
 
     private void FixedUpdate()
@@ -284,28 +279,39 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mesh.vertices = theVertices;
     }
 
-    private void updateElevationByPopulation(Node[,] nodes)
+    private void updateElevationByPopulation()
     {
-        Debug.Log("Updating elevation by population.");
         Vector3[] theVertices = new Vector3[m_vertices.Length];
         foreach (Node node in m_nodes)
         {
             if (node.isPopulated == true)
             {
-                Debug.Log("Node is populated. Moving mesh elevation up.");
                 Vector3 theVertex = m_vertices[node.vertexIndex];
                 theVertex.y = 1;
                 theVertices[node.vertexIndex] = theVertex;
             }
             else
             {
-                Debug.Log("Node is unpopulated. Moving elevation down.");
                 Vector3 theVertex = m_vertices[node.vertexIndex];
                 theVertex.y = -1;
                 theVertices[node.vertexIndex] = theVertex;
             }
         }
         m_mesh.vertices = theVertices;
+    }
+
+    private void tickNodes()
+    {
+        foreach (Node node in m_nodes)
+        {
+            node.tick();
+        }
+    }
+
+    private void stepSimulation()
+    {
+        tickNodes();
+        updateElevationByPopulation();
     }
 
 
@@ -371,6 +377,14 @@ public class LandscapeBuilder : MonoBehaviour{
             }
             else //node is dead
             {
+                foreach (Node neighbor in neighbors)
+                {
+                    //get number of populated neighbors
+                    if (neighbor.isPopulated)
+                    {
+                        populatedNeighborCount++;
+                    }
+                }
                 if (populatedNeighborCount == 3)
                 {
                     //cell becomes populated
