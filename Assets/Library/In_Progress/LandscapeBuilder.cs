@@ -370,56 +370,66 @@ public class LandscapeBuilder : MonoBehaviour{
         public int vertexIndex; //index of associated vertex
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
+        
 
         /****************************************************************************************************
         * Private Members
         ****************************************************************************************************/
-        private bool isStable = false;
-        private bool isBorder = false;
-        private int neighborCount = 0;
-        private int stabilizationCount;
+        private bool m_isStable = false;
+        private bool m_isBorder = false;
+        private int m_neighborCount = 0;
+        private int m_stablizationCount = 0;
+        private static Vector3 decalScale = new Vector3(.5f, 1, .5f);
+        private GameObject m_nodeDecal;
+
 
         /****************************************************************************************************
         * Constants
         ****************************************************************************************************/
-        private const int STABLIZATION_PERIOD = 10;
+        private const int STABLIZATION_PERIOD = 15;
 
         /****************************************************************************************************
         * Public Methods
         ****************************************************************************************************/
         public void tick()
         {
-            updatePopulatedStatus();
-            
-            if (!isStable)
+            m_isStable = checkStabilization();
+           
+            if (!m_isStable)
             {
-                isStable = checkStabilization();
-                neighborCount = getNeighborCount();
-                setNextState(neighborCount);
-                isStable = checkStabilization();
+                updatePopulatedStatus();
+                m_neighborCount = getNeighborCount();
+                setNextState(m_neighborCount);
             }
         }
 
         /****************************************************************************************************
         * Private Methods
         ****************************************************************************************************/
-        
-
         /**
          * @brief Determine the nodes state the next frame depending on the status of the node.
          */
         private bool checkStabilization()
         {
-            if (stabilizationCount >= STABLIZATION_PERIOD)
+            if (m_stablizationCount >= STABLIZATION_PERIOD)
             {
-                stabilizationCount = 0;
-                GameObject farm = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                farm.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                if (m_nodeDecal == null)
+                {
+                    m_nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    m_nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    m_nodeDecal.transform.localScale = decalScale;
+                    m_nodeDecal.name = "Decal for node @ " + m_nodeDecal.transform.position;
+                }
+                isPopulated = true;
+                isPopulatedNextTick = true;
                 return true;
             }
             return false;
         }
 
+        /**
+         * @brief Update the population status of the node.
+         */
         private void updatePopulatedStatus()
         {
             if (isPopulatedNextTick == true)
@@ -433,6 +443,9 @@ public class LandscapeBuilder : MonoBehaviour{
             }
         }
 
+        /**
+         * @brief Determine the number of populated neighbors the node has.
+         */
         private int getNeighborCount()
         {
             int result = 0;
@@ -447,6 +460,9 @@ public class LandscapeBuilder : MonoBehaviour{
             return result;
         }
 
+        /**
+         * @brief Set the state of the node the next tick.
+         */
         private void setNextState(int neighborCount)
         {
             if (isPopulated == true)
@@ -454,12 +470,12 @@ public class LandscapeBuilder : MonoBehaviour{
                 if (neighborCount < 2 || neighborCount > 3)
                 {
                     isPopulatedNextTick = false;
-                    stabilizationCount = 0;
+                    m_stablizationCount = 0;
                 }
                 else
                 {
                     isPopulatedNextTick = true;
-                    stabilizationCount++;
+                    m_stablizationCount++;
                 }
             }
             else
@@ -467,7 +483,7 @@ public class LandscapeBuilder : MonoBehaviour{
                 if (neighborCount == 3)
                 {
                     isPopulatedNextTick = true;
-                    stabilizationCount++;
+                    m_stablizationCount++;
                 }
             }
         }
