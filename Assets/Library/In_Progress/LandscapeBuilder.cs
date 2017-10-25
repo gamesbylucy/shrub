@@ -362,21 +362,66 @@ public class LandscapeBuilder : MonoBehaviour{
      */
     private class Node
     {
-        //public bool isStabilized = false;
-        //public bool isBorder = false;
+        /****************************************************************************************************
+        * Public Members
+        ****************************************************************************************************/
         public bool isPopulated = false;
         public bool isPopulatedNextTick = false;
         public int vertexIndex; //index of associated vertex
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
 
+        /****************************************************************************************************
+        * Private Members
+        ****************************************************************************************************/
+        private bool isStable = false;
+        private bool isBorder = false;
+        private int neighborCount = 0;
+        private int stabilizationCount;
+
+        /****************************************************************************************************
+        * Constants
+        ****************************************************************************************************/
+        private const int STABLIZATION_PERIOD = 10;
+
+        /****************************************************************************************************
+        * Public Methods
+        ****************************************************************************************************/
+        public void tick()
+        {
+            updatePopulatedStatus();
+            
+            if (!isStable)
+            {
+                isStable = checkStabilization();
+                neighborCount = getNeighborCount();
+                setNextState(neighborCount);
+                isStable = checkStabilization();
+            }
+        }
+
+        /****************************************************************************************************
+        * Private Methods
+        ****************************************************************************************************/
+        
+
         /**
          * @brief Determine the nodes state the next frame depending on the status of the node.
          */
-        public void tick()
+        private bool checkStabilization()
         {
-            int neighborCount = 0;
+            if (stabilizationCount >= STABLIZATION_PERIOD)
+            {
+                stabilizationCount = 0;
+                GameObject farm = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                farm.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                return true;
+            }
+            return false;
+        }
 
+        private void updatePopulatedStatus()
+        {
             if (isPopulatedNextTick == true)
             {
                 isPopulated = true;
@@ -386,24 +431,35 @@ public class LandscapeBuilder : MonoBehaviour{
             {
                 isPopulated = false;
             }
+        }
 
+        private int getNeighborCount()
+        {
+            int result = 0;
             foreach (Node neighbor in neighbors)
             {
                 if (neighbor.isPopulated)
                 {
-                    neighborCount++;
+                    result++;
                 }
             }
 
+            return result;
+        }
+
+        private void setNextState(int neighborCount)
+        {
             if (isPopulated == true)
             {
                 if (neighborCount < 2 || neighborCount > 3)
                 {
                     isPopulatedNextTick = false;
+                    stabilizationCount = 0;
                 }
                 else
                 {
                     isPopulatedNextTick = true;
+                    stabilizationCount++;
                 }
             }
             else
@@ -411,6 +467,7 @@ public class LandscapeBuilder : MonoBehaviour{
                 if (neighborCount == 3)
                 {
                     isPopulatedNextTick = true;
+                    stabilizationCount++;
                 }
             }
         }
