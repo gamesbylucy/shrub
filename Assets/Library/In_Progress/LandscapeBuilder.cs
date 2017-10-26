@@ -373,8 +373,54 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void stepSimulation()
     {
+        updateStabilizationState();
+        updateComplexState();
+        updatePopulationState();
         tickNodes();
         updateElevationByPopulation();
+    }
+
+    private void updateStabilizationState()
+    {
+        foreach (Node node in m_nodes)
+        {
+            node.checkStabilization();
+        }
+    }
+
+    private void updateComplexState()
+    {
+        foreach (Node node in m_nodes)
+        {
+            if (node.isStable && !node.isComplex)
+            {
+                if(node.getNumStableNeighbors() == 3 && node.getNumComplexNeighbors() == 0)
+                {
+                    Complex theComplex = new Complex();
+                    theComplex.initializeComplex();
+                    theComplex.add(node);
+                    node.isComplex = true;
+                    node.setDecalColor(theComplex.color);
+                    foreach (Node neighbor in node.neighbors)
+                    {
+                        if (neighbor.isStable)
+                        {
+                            neighbor.setDecalColor(theComplex.color);
+                            theComplex.add(neighbor);
+                            node.isComplex = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void updatePopulationState()
+    {
+        foreach (Node node in m_nodes)
+        {
+            node.updatePopulatedStatus();
+        }
     }
 
 
@@ -423,7 +469,9 @@ public class LandscapeBuilder : MonoBehaviour{
         public float initialSeedProbability;
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
-        
+        public static Vector3 decalScale = new Vector3(.5f, 1, .5f);
+        public GameObject nodeDecal;
+
 
         /****************************************************************************************************
         * Private Members
@@ -431,8 +479,7 @@ public class LandscapeBuilder : MonoBehaviour{
         private int m_neighborCount = 0;
         private int m_stableNeighborCount = 0;
         private int m_stablizationCount = 0;
-        private static Vector3 decalScale = new Vector3(.5f, 1, .5f);
-        private GameObject m_nodeDecal;
+        
 
 
         /****************************************************************************************************
@@ -444,34 +491,28 @@ public class LandscapeBuilder : MonoBehaviour{
         * Public Methods
         ****************************************************************************************************/
         public void tick()
-        {
-            checkStabilization();
-           
+        {           
             if (!isStable)
             {
-                updatePopulatedStatus();
                 m_neighborCount = getNeighborCount();
                 setNextState(m_neighborCount);
             }
         }
 
-        /****************************************************************************************************
-        * Private Methods
-        ****************************************************************************************************/
         /**
          * @brief Determine the nodes state the next frame depending on the status of the node.
          */
-        private void checkStabilization()
+        public void checkStabilization()
         {
             if (m_stablizationCount >= STABLIZATION_PERIOD && !isStableNodeBorder && !isLandscapeBorder)
             {
                 isStable = true;
-                if (m_nodeDecal == null)
+                if (nodeDecal == null)
                 {
-                    m_nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    m_nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
-                    m_nodeDecal.transform.localScale = decalScale;
-                    m_nodeDecal.name = "Decal for node @ " + m_nodeDecal.transform.position;
+                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.localScale = decalScale;
+                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                 }
                 isPopulated = true;
                 isPopulatedNextTick = true;
@@ -485,7 +526,7 @@ public class LandscapeBuilder : MonoBehaviour{
         /**
          * @brief Update the population status of the node.
          */
-        private void updatePopulatedStatus()
+        public void updatePopulatedStatus()
         {
             if (isPopulatedNextTick == true)
             {
@@ -497,6 +538,43 @@ public class LandscapeBuilder : MonoBehaviour{
                 isPopulated = false;
             }
         }
+
+        public int getNumStableNeighbors()
+        {
+            int numStableNeighbors = 0;
+            foreach (Node neighbor in neighbors)
+            {
+                if (neighbor.isStable == true)
+                {
+                    numStableNeighbors++;
+                }
+            }
+            return numStableNeighbors;
+        }
+
+        public int getNumComplexNeighbors()
+        {
+            int numComplexNeighbors = 0;
+            foreach (Node neighbor in neighbors)
+            {
+                if (neighbor.isComplex == true)
+                {
+                    numComplexNeighbors++;
+                }
+            }
+            return numComplexNeighbors;
+        }
+
+        public void setDecalColor(Color color)
+        {
+            nodeDecal.GetComponent<Renderer>().material.color = color;
+        }
+        /****************************************************************************************************
+        * Private Methods
+        ****************************************************************************************************/
+        
+
+        
 
         /**
          * @brief Determine the number of populated neighbors the node has.
@@ -542,5 +620,70 @@ public class LandscapeBuilder : MonoBehaviour{
                 }
             }
         }
+    }
+
+    private class Complex
+    {
+        /**
+         * @Brief Represents a complex of nodes.
+         */
+        /****************************************************************************************************
+        * Public Members
+        ****************************************************************************************************/
+        public string name;
+        public List<Node> members;
+        public float rColor;
+        public float gColor;
+        public float bColor;
+        public Color color = new Color();
+        public bool isAbsorbed;
+
+        /****************************************************************************************************
+        * Private Members
+        ****************************************************************************************************/
+
+        /****************************************************************************************************
+        * Static Members
+        ****************************************************************************************************/
+
+        /****************************************************************************************************
+        * Public Methods
+        ****************************************************************************************************/
+        public void initializeComplex()
+        {
+            members = new List<Node>();
+            setColor();
+            setName();
+        }
+
+        public void add(Node theNode)
+        {
+            members.Add(theNode);
+        }
+        public void remove(Node theNode)
+        {
+            members.Remove(theNode);
+        }
+        public void clear()
+        {
+            members.Clear();
+        }
+
+        public void setColor()
+        {
+            rColor = (float)random.NextDouble();
+            bColor = (float)random.NextDouble();
+            gColor = (float)random.NextDouble();
+            color = new Color(rColor, bColor, gColor);
+        }
+
+        public void setName()
+        {
+            name = "Complex " + rColor + gColor + bColor;
+        }
+
+        /****************************************************************************************************
+        * Private Methods
+        ****************************************************************************************************/
     }
 }
