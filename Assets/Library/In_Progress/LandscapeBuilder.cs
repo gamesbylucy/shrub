@@ -29,7 +29,7 @@ public class LandscapeBuilder : MonoBehaviour{
      * Constant Members
      ****************************************************************************************************/
     private const float TICK_SPEED = .05f;
-    private const float POPULATED_NODE_PROBABILITY = .7f;  
+    private const float POPULATED_NODE_PROBABILITY = .3f;  
 
     /****************************************************************************************************
      * Static Members
@@ -367,6 +367,9 @@ public class LandscapeBuilder : MonoBehaviour{
         ****************************************************************************************************/
         public bool isPopulated = false;
         public bool isPopulatedNextTick = false;
+        private bool isStable = false;
+        private bool isBorder = false;
+        private bool isComplex = false;
         public int vertexIndex; //index of associated vertex
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
@@ -375,9 +378,8 @@ public class LandscapeBuilder : MonoBehaviour{
         /****************************************************************************************************
         * Private Members
         ****************************************************************************************************/
-        private bool m_isStable = false;
-        private bool m_isBorder = false;
         private int m_neighborCount = 0;
+        private int m_stableNeighborCount = 0;
         private int m_stablizationCount = 0;
         private static Vector3 decalScale = new Vector3(.5f, 1, .5f);
         private GameObject m_nodeDecal;
@@ -393,9 +395,9 @@ public class LandscapeBuilder : MonoBehaviour{
         ****************************************************************************************************/
         public void tick()
         {
-            m_isStable = checkStabilization();
+            isStable = checkStabilization();
            
-            if (!m_isStable)
+            if (!isStable)
             {
                 updatePopulatedStatus();
                 m_neighborCount = getNeighborCount();
@@ -411,7 +413,7 @@ public class LandscapeBuilder : MonoBehaviour{
          */
         private bool checkStabilization()
         {
-            if (m_stablizationCount >= STABLIZATION_PERIOD)
+            if (m_stablizationCount >= STABLIZATION_PERIOD && !isBorder)
             {
                 if (m_nodeDecal == null)
                 {
