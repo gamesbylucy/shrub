@@ -24,12 +24,12 @@ public class LandscapeBuilder : MonoBehaviour{
     private Mesh m_mesh;
     private Vector4 m_tangent;
     private MeshCollider m_meshCollider;
+    private float m_stepSpeed;
 
     /****************************************************************************************************
      * Constant Members
      ****************************************************************************************************/
-    private const float TICK_SPEED = .05f;
-    private const float POPULATED_NODE_PROBABILITY = .3f;  
+
 
     /****************************************************************************************************
      * Static Members
@@ -60,13 +60,16 @@ public class LandscapeBuilder : MonoBehaviour{
     /**
      * @brief Calls private methods to build the components of the landscape.
      */
-    public void build(int width, int height)
+    public void build(int width, int height, float baseSeedProbability, float initialStepSpeed)
     {
         m_mapWidth = width;
         m_mapHeight = height;
+        m_stepSpeed = initialStepSpeed;
         initializeMeshData();
         calculateSquareMeshData();
         assignNodeNeighbors();
+        checkForLandscapeBorders(m_nodes);
+        setSeedProbability(m_nodes, baseSeedProbability);
         assignMeshData();
         assignSharedMesh();
         seedPopulation(Enumerations.SeedTypes.Random);
@@ -108,6 +111,11 @@ public class LandscapeBuilder : MonoBehaviour{
         Debug.Log(neighborString);
     }
 
+    public void updateStepSpeed(float updatedStepSpeed)
+    {
+        m_stepSpeed = updatedStepSpeed;
+    }
+
     /****************************************************************************************************
      * Private Methods
      ****************************************************************************************************/
@@ -123,7 +131,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void Start()
     {
-        InvokeRepeating("stepSimulation", TICK_SPEED, TICK_SPEED);
+        InvokeRepeating("stepSimulation", m_stepSpeed, m_stepSpeed);
     }
 
     private void Update()
@@ -251,6 +259,46 @@ public class LandscapeBuilder : MonoBehaviour{
         return theNodes;
     }
 
+    private void checkForLandscapeBorders(Node[ , ] landscape)
+    {
+        foreach (Node node in landscape)
+        {
+            if (node.neighbors.Count < 8)
+            {
+                node.isLandscapeBorder = true;
+            }
+        }
+    }
+
+    private void setSeedProbability(Node[ , ] landscape, float baseSeedProbability)
+    {
+        foreach (Node node in landscape)
+        {
+            bool hasLandscapeBorderNeighbor = false;
+            foreach (Node neighbor in node.neighbors)
+            {
+                if (neighbor.isLandscapeBorder == true)
+                {
+                    hasLandscapeBorderNeighbor = true;
+                    break;
+                }
+            }
+
+            if (node.isLandscapeBorder)
+            {
+                node.initialSeedProbability = 0;
+            }
+            else if (hasLandscapeBorderNeighbor == true)
+            {
+                node.initialSeedProbability = baseSeedProbability / 2;
+            }
+            else
+            {
+                node.initialSeedProbability = baseSeedProbability;
+            }
+        }
+    }
+
     /**
      * @brief Seeds the initial distribution of populated nodes.
      */
@@ -261,7 +309,7 @@ public class LandscapeBuilder : MonoBehaviour{
             case Enumerations.SeedTypes.Random:
                 foreach (Node node in m_nodes)
                 {
-                    if ((float)random.NextDouble() < POPULATED_NODE_PROBABILITY)
+                    if ((float)random.NextDouble() < node.initialSeedProbability)
                     {
                         node.isPopulated = true;
                         node.isPopulatedNextTick = true;
@@ -367,10 +415,12 @@ public class LandscapeBuilder : MonoBehaviour{
         ****************************************************************************************************/
         public bool isPopulated = false;
         public bool isPopulatedNextTick = false;
-        private bool isStable = false;
-        private bool isBorder = false;
-        private bool isComplex = false;
+        public bool isStable = false;
+        public bool isStableNodeBorder = false;
+        public bool isComplex = false;
+        public bool isLandscapeBorder = false;
         public int vertexIndex; //index of associated vertex
+        public float initialSeedProbability;
         public List<Node> neighbors; //TBD neighbor ordering
         public Vector3 vertex;
         
@@ -395,7 +445,7 @@ public class LandscapeBuilder : MonoBehaviour{
         ****************************************************************************************************/
         public void tick()
         {
-            isStable = checkStabilization();
+            checkStabilization();
            
             if (!isStable)
             {
@@ -411,10 +461,11 @@ public class LandscapeBuilder : MonoBehaviour{
         /**
          * @brief Determine the nodes state the next frame depending on the status of the node.
          */
-        private bool checkStabilization()
+        private void checkStabilization()
         {
-            if (m_stablizationCount >= STABLIZATION_PERIOD && !isBorder)
+            if (m_stablizationCount >= STABLIZATION_PERIOD && !isStableNodeBorder && !isLandscapeBorder)
             {
+                isStable = true;
                 if (m_nodeDecal == null)
                 {
                     m_nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -424,9 +475,11 @@ public class LandscapeBuilder : MonoBehaviour{
                 }
                 isPopulated = true;
                 isPopulatedNextTick = true;
-                return true;
             }
-            return false;
+            else
+            {
+                isStable = false;
+            }
         }
 
         /**
