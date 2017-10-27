@@ -25,6 +25,8 @@ public class LandscapeBuilder : MonoBehaviour{
     private Vector4 m_tangent;
     private MeshCollider m_meshCollider;
     private float m_stepSpeed;
+    private List<Node> m_complexNodes;
+    private List<Complex> m_complexes;
 
     /****************************************************************************************************
      * Constant Members
@@ -65,6 +67,8 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mapWidth = width;
         m_mapHeight = height;
         m_stepSpeed = initialStepSpeed;
+        m_complexNodes = new List<Node>();
+        m_complexes = new List<Complex>();
         initializeMeshData();
         calculateSquareMeshData();
         assignNodeNeighbors();
@@ -366,25 +370,28 @@ public class LandscapeBuilder : MonoBehaviour{
         {
             foreach (Node node in m_nodes)
             {
-                node.tick();
+                if (!node.isLocked)
+                {
+                    node.tick();
+                }
             }
         }
     }
 
     private void stepSimulation()
     {
+        updatePopulationState();
+        updateElevationByPopulation();
         updateStabilizationState();
         updateComplexState();
-        updatePopulationState();
         tickNodes();
-        updateElevationByPopulation();
     }
 
     private void updateStabilizationState()
     {
         foreach (Node node in m_nodes)
         {
-            node.checkStabilization();
+            node.updateStabilizationStatus();
         }
     }
 
@@ -392,24 +399,95 @@ public class LandscapeBuilder : MonoBehaviour{
     {
         foreach (Node node in m_nodes)
         {
-            if (node.isStable && !node.isComplex)
+            if (node.isComplexNextTick)
             {
-                if(node.getNumStableNeighbors() == 3 && node.getNumComplexNeighbors() == 0)
+                node.isComplex = true;
+                m_complexNodes.Add(node);
+            }
+            else
+            {
+                node.isComplex = false;
+                m_complexNodes.Remove(node);
+            }
+        }
+        rankComplexNodes();
+        createComplexes();
+        m_complexNodes.Clear();
+    }
+
+    private void rankComplexNodes()
+    {
+        foreach (Node node in m_complexNodes)
+        {
+            node.rank = (float)random.NextDouble();
+        }
+    }
+
+    private void createComplexes()
+    {
+        foreach (Node complex in m_complexNodes)
+        {
+            int complexity = 1;
+            int complexSize = 1;
+            bool isComplexFormed = true;
+            
+            foreach (Node neighbor in complex.neighbors)
+            {
+                if (neighbor.isComplex)
                 {
-                    Complex theComplex = new Complex();
-                    theComplex.initializeComplex();
-                    theComplex.add(node);
-                    node.isComplex = true;
-                    node.setDecalColor(theComplex.color);
-                    foreach (Node neighbor in node.neighbors)
+                    if (neighbor.rank > complex.rank)
                     {
-                        if (neighbor.isStable)
+                        isComplexFormed = false;
+                    }
+                    else if (neighbor.rank == complex.rank)
+                    {
+                        if (.5f > (float)random.NextDouble())
                         {
-                            neighbor.setDecalColor(theComplex.color);
-                            theComplex.add(neighbor);
-                            node.isComplex = true;
+                            isComplexFormed = false;
+                        }
+                        else
+                        {
+                            complexSize++;
+                            complexity++;
                         }
                     }
+                    else
+                    {
+                        complexSize++;
+                        complexity++;
+                    }
+                }
+                else if (neighbor.isStable)
+                {
+                    complexSize++;
+                }
+            }
+
+            if (isComplexFormed == true)
+            {
+                Complex theComplex = new Complex();
+                theComplex.size = complexSize;
+                theComplex.complexity = complexity;
+                theComplex.add(complex);
+                theComplex.setMemberColor();
+                complex.isPopulated = true;
+                complex.isPopulatedNextTick = true;
+                complex.isStable = true;
+                complex.isStableNextTick = true;
+                complex.isComplex = false;
+                complex.isComplexNextTick = false;
+                complex.isLocked = true;
+                complex.nodeDecal.transform.localScale = new Vector3(1, theComplex.size, 1);
+                foreach(Node neighbor in complex.neighbors)
+                {
+                    Destroy(neighbor.nodeDecal);
+                    neighbor.isPopulated = false;
+                    neighbor.isPopulatedNextTick = false;
+                    neighbor.isStable = false;
+                    neighbor.isStableNextTick = false;
+                    neighbor.isComplex = false;
+                    neighbor.isComplexNextTick = false;
+                    neighbor.isLocked = true;
                 }
             }
         }
@@ -422,8 +500,6 @@ public class LandscapeBuilder : MonoBehaviour{
             node.updatePopulatedStatus();
         }
     }
-
-
 
     /****************************************************************************************************
      * Shrub Event Handlers
@@ -462,9 +538,14 @@ public class LandscapeBuilder : MonoBehaviour{
         public bool isPopulated = false;
         public bool isPopulatedNextTick = false;
         public bool isStable = false;
+        public bool isStableNextTick = false;
         public bool isStableNodeBorder = false;
         public bool isComplex = false;
+        public bool isComplexNextTick = false;
+        public bool isComplexMember = false;
         public bool isLandscapeBorder = false;
+        public bool isLocked = false;
+        public float rank;
         public int vertexIndex; //index of associated vertex
         public float initialSeedProbability;
         public List<Node> neighbors; //TBD neighbor ordering
@@ -492,19 +573,16 @@ public class LandscapeBuilder : MonoBehaviour{
         ****************************************************************************************************/
         public void tick()
         {           
-            if (!isStable)
-            {
-                m_neighborCount = getNeighborCount();
-                setNextState(m_neighborCount);
-            }
+            m_neighborCount = getNeighborCount();
+            setNextState(m_neighborCount);
         }
 
         /**
          * @brief Determine the nodes state the next frame depending on the status of the node.
          */
-        public void checkStabilization()
+        public void updateStabilizationStatus()
         {
-            if (m_stablizationCount >= STABLIZATION_PERIOD && !isStableNodeBorder && !isLandscapeBorder)
+            if (isStableNextTick && !isLandscapeBorder)
             {
                 isStable = true;
                 if (nodeDecal == null)
@@ -536,6 +614,26 @@ public class LandscapeBuilder : MonoBehaviour{
             else
             {
                 isPopulated = false;
+            }
+        }
+
+        public void updateComplexMembership()
+        {
+            if (isComplexNextTick && !isComplex)
+            {
+                isComplex = true;
+                Complex theComplex = new Complex();
+                theComplex.add(this);
+                setDecalColor(theComplex.color);
+                foreach (Node neighbor in neighbors)
+                {
+                    if (neighbor.isStable && !neighbor.isComplex)
+                    {
+                        isComplex = true;
+                        theComplex.add(neighbor);
+                        neighbor.setDecalColor(theComplex.color);
+                    }
+                }
             }
         }
 
@@ -600,7 +698,7 @@ public class LandscapeBuilder : MonoBehaviour{
         {
             if (isPopulated == true)
             {
-                if (neighborCount < 2 || neighborCount > 3)
+                if (neighborCount < 2 || neighborCount > 3 && !isStable)
                 {
                     isPopulatedNextTick = false;
                     m_stablizationCount = 0;
@@ -617,6 +715,20 @@ public class LandscapeBuilder : MonoBehaviour{
                 {
                     isPopulatedNextTick = true;
                     m_stablizationCount++;
+                }
+            }
+            
+            if (m_stablizationCount >= STABLIZATION_PERIOD)
+            {
+                isStableNextTick = true;
+                m_stablizationCount = 0;
+            }
+
+            if (isStable)
+            {
+                if (getNumStableNeighbors() == 3)
+                {
+                    isComplexNextTick = true;
                 }
             }
         }
@@ -637,6 +749,8 @@ public class LandscapeBuilder : MonoBehaviour{
         public float bColor;
         public Color color = new Color();
         public bool isAbsorbed;
+        public int size;
+        public int complexity;
 
         /****************************************************************************************************
         * Private Members
@@ -647,11 +761,21 @@ public class LandscapeBuilder : MonoBehaviour{
         ****************************************************************************************************/
 
         /****************************************************************************************************
+        * Constructor
+        ****************************************************************************************************/
+        public Complex()
+        {
+            initializeComplex();
+        }
+        
+        /****************************************************************************************************
         * Public Methods
         ****************************************************************************************************/
         public void initializeComplex()
         {
             members = new List<Node>();
+            size = 0;
+            complexity = 0;
             setColor();
             setName();
         }
@@ -680,6 +804,14 @@ public class LandscapeBuilder : MonoBehaviour{
         public void setName()
         {
             name = "Complex " + rColor + gColor + bColor;
+        }
+
+        public void setMemberColor()
+        {
+            foreach (Node member in members)
+            {
+                member.setDecalColor(color);
+            }
         }
 
         /****************************************************************************************************
