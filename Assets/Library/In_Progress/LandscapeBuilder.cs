@@ -51,9 +51,6 @@ public class LandscapeBuilder : MonoBehaviour{
         new int[] { 0, -1 }  //S
     };
 
-    private static System.Random random = new System.Random(System.DateTime.Now.Millisecond);
-    
-
 
     /****************************************************************************************************
      * Public Methods
@@ -113,11 +110,6 @@ public class LandscapeBuilder : MonoBehaviour{
         }
         Debug.Log(arrayString);
         Debug.Log(neighborString);
-    }
-
-    public void updateStepSpeed(float updatedStepSpeed)
-    {
-        m_stepSpeed = updatedStepSpeed;
     }
 
     /****************************************************************************************************
@@ -313,7 +305,7 @@ public class LandscapeBuilder : MonoBehaviour{
             case Enumerations.SeedTypes.Random:
                 foreach (Node node in m_nodes)
                 {
-                    if ((float)random.NextDouble() < node.initialSeedProbability)
+                    if ((float)ShrubUtils.random.NextDouble() < node.initialSeedProbability)
                     {
                         node.isPopulated = true;
                         node.isPopulatedNextTick = true;
@@ -419,7 +411,7 @@ public class LandscapeBuilder : MonoBehaviour{
     {
         foreach (Node node in m_complexNodes)
         {
-            node.rank = (float)random.NextDouble();
+            node.rank = (float)ShrubUtils.random.NextDouble();
         }
     }
 
@@ -441,7 +433,7 @@ public class LandscapeBuilder : MonoBehaviour{
                     }
                     else if (neighbor.rank == complex.rank)
                     {
-                        if (.5f > (float)random.NextDouble())
+                        if (.5f > (float)ShrubUtils.random.NextDouble())
                         {
                             isComplexFormed = false;
                         }
@@ -522,300 +514,5 @@ public class LandscapeBuilder : MonoBehaviour{
             Gizmos.color = Color.black;
             Gizmos.DrawSphere(m_vertices[i], 0.1f);
         }
-    }
-
-    /****************************************************************************************************
-     * Inner Classes
-     ****************************************************************************************************/
-    /**
-     * @brief Stores data about nodes in the mesh to facilitate landscape generation algorithms.
-     */
-    private class Node
-    {
-        /****************************************************************************************************
-        * Public Members
-        ****************************************************************************************************/
-        public bool isPopulated = false;
-        public bool isPopulatedNextTick = false;
-        public bool isStable = false;
-        public bool isStableNextTick = false;
-        public bool isStableNodeBorder = false;
-        public bool isComplex = false;
-        public bool isComplexNextTick = false;
-        public bool isComplexMember = false;
-        public bool isLandscapeBorder = false;
-        public bool isLocked = false;
-        public float rank;
-        public int vertexIndex; //index of associated vertex
-        public float initialSeedProbability;
-        public List<Node> neighbors; //TBD neighbor ordering
-        public Vector3 vertex;
-        public static Vector3 decalScale = new Vector3(.5f, 1, .5f);
-        public GameObject nodeDecal;
-
-
-        /****************************************************************************************************
-        * Private Members
-        ****************************************************************************************************/
-        private int m_neighborCount = 0;
-        private int m_stableNeighborCount = 0;
-        private int m_stablizationCount = 0;
-        
-
-
-        /****************************************************************************************************
-        * Constants
-        ****************************************************************************************************/
-        private const int STABLIZATION_PERIOD = 15;
-
-        /****************************************************************************************************
-        * Public Methods
-        ****************************************************************************************************/
-        public void tick()
-        {           
-            m_neighborCount = getNeighborCount();
-            setNextState(m_neighborCount);
-        }
-
-        /**
-         * @brief Determine the nodes state the next frame depending on the status of the node.
-         */
-        public void updateStabilizationStatus()
-        {
-            if (isStableNextTick && !isLandscapeBorder)
-            {
-                isStable = true;
-                if (nodeDecal == null)
-                {
-                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
-                    nodeDecal.transform.localScale = decalScale;
-                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
-                }
-                isPopulated = true;
-                isPopulatedNextTick = true;
-            }
-            else
-            {
-                isStable = false;
-            }
-        }
-
-        /**
-         * @brief Update the population status of the node.
-         */
-        public void updatePopulatedStatus()
-        {
-            if (isPopulatedNextTick == true)
-            {
-                isPopulated = true;
-                isPopulatedNextTick = false;
-            }
-            else
-            {
-                isPopulated = false;
-            }
-        }
-
-        public void updateComplexMembership()
-        {
-            if (isComplexNextTick && !isComplex)
-            {
-                isComplex = true;
-                Complex theComplex = new Complex();
-                theComplex.add(this);
-                setDecalColor(theComplex.color);
-                foreach (Node neighbor in neighbors)
-                {
-                    if (neighbor.isStable && !neighbor.isComplex)
-                    {
-                        isComplex = true;
-                        theComplex.add(neighbor);
-                        neighbor.setDecalColor(theComplex.color);
-                    }
-                }
-            }
-        }
-
-        public int getNumStableNeighbors()
-        {
-            int numStableNeighbors = 0;
-            foreach (Node neighbor in neighbors)
-            {
-                if (neighbor.isStable == true)
-                {
-                    numStableNeighbors++;
-                }
-            }
-            return numStableNeighbors;
-        }
-
-        public int getNumComplexNeighbors()
-        {
-            int numComplexNeighbors = 0;
-            foreach (Node neighbor in neighbors)
-            {
-                if (neighbor.isComplex == true)
-                {
-                    numComplexNeighbors++;
-                }
-            }
-            return numComplexNeighbors;
-        }
-
-        public void setDecalColor(Color color)
-        {
-            nodeDecal.GetComponent<Renderer>().material.color = color;
-        }
-        /****************************************************************************************************
-        * Private Methods
-        ****************************************************************************************************/
-        
-
-        
-
-        /**
-         * @brief Determine the number of populated neighbors the node has.
-         */
-        private int getNeighborCount()
-        {
-            int result = 0;
-            foreach (Node neighbor in neighbors)
-            {
-                if (neighbor.isPopulated)
-                {
-                    result++;
-                }
-            }
-
-            return result;
-        }
-
-        /**
-         * @brief Set the state of the node the next tick.
-         */
-        private void setNextState(int neighborCount)
-        {
-            if (isPopulated == true)
-            {
-                if (neighborCount < 2 || neighborCount > 3 && !isStable)
-                {
-                    isPopulatedNextTick = false;
-                    m_stablizationCount = 0;
-                }
-                else
-                {
-                    isPopulatedNextTick = true;
-                    m_stablizationCount++;
-                }
-            }
-            else
-            {
-                if (neighborCount == 3)
-                {
-                    isPopulatedNextTick = true;
-                    m_stablizationCount++;
-                }
-            }
-            
-            if (m_stablizationCount >= STABLIZATION_PERIOD)
-            {
-                isStableNextTick = true;
-                m_stablizationCount = 0;
-            }
-
-            if (isStable)
-            {
-                if (getNumStableNeighbors() == 3)
-                {
-                    isComplexNextTick = true;
-                }
-            }
-        }
-    }
-
-    private class Complex
-    {
-        /**
-         * @Brief Represents a complex of nodes.
-         */
-        /****************************************************************************************************
-        * Public Members
-        ****************************************************************************************************/
-        public string name;
-        public List<Node> members;
-        public float rColor;
-        public float gColor;
-        public float bColor;
-        public Color color = new Color();
-        public bool isAbsorbed;
-        public int size;
-        public int complexity;
-
-        /****************************************************************************************************
-        * Private Members
-        ****************************************************************************************************/
-
-        /****************************************************************************************************
-        * Static Members
-        ****************************************************************************************************/
-
-        /****************************************************************************************************
-        * Constructor
-        ****************************************************************************************************/
-        public Complex()
-        {
-            initializeComplex();
-        }
-        
-        /****************************************************************************************************
-        * Public Methods
-        ****************************************************************************************************/
-        public void initializeComplex()
-        {
-            members = new List<Node>();
-            size = 0;
-            complexity = 0;
-            setColor();
-            setName();
-        }
-
-        public void add(Node theNode)
-        {
-            members.Add(theNode);
-        }
-        public void remove(Node theNode)
-        {
-            members.Remove(theNode);
-        }
-        public void clear()
-        {
-            members.Clear();
-        }
-
-        public void setColor()
-        {
-            rColor = (float)random.NextDouble();
-            bColor = (float)random.NextDouble();
-            gColor = (float)random.NextDouble();
-            color = new Color(rColor, bColor, gColor);
-        }
-
-        public void setName()
-        {
-            name = "Complex " + rColor + gColor + bColor;
-        }
-
-        public void setMemberColor()
-        {
-            foreach (Node member in members)
-            {
-                member.setDecalColor(color);
-            }
-        }
-
-        /****************************************************************************************************
-        * Private Methods
-        ****************************************************************************************************/
     }
 }
