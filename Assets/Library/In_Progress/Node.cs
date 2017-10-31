@@ -91,7 +91,9 @@ public class Node
         }
     }
 
-    public void updateComplexMembership()
+    /**
+     * DEPRECIATED
+     * public void updateComplexMembership()
     {
         if (isComplexNextTick && !isComplex)
         {
@@ -109,7 +111,7 @@ public class Node
                 }
             }
         }
-    }
+    }*/
 
     public int getNumStableNeighbors()
     {

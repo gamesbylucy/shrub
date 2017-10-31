@@ -389,6 +389,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void updateComplexState()
     {
+
         foreach (Node node in m_nodes)
         {
             if (node.isComplexNextTick)
@@ -487,9 +488,12 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void updatePopulationState()
     {
-        foreach (Node node in m_nodes)
+        if (m_nodes != null)
         {
-            node.updatePopulatedStatus();
+            foreach (Node node in m_nodes)
+            {
+                node.updatePopulatedStatus();
+            }
         }
     }
 
