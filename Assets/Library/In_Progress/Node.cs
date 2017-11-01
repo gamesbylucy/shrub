@@ -17,7 +17,7 @@ public class Node
     public float rank;
     public Enumerations.States state = Enumerations.States.Unpopulated;
     public int vertexIndex; //index of associated vertex
-    public int complexity;
+    public int complexity = 0;
     public float initialSeedProbability;
     public List<Node> neighbors; //TBD neighbor ordering
     public Vector3 vertex;
@@ -69,6 +69,7 @@ public class Node
                     state = Enumerations.States.Stable;
                     return;
                 }
+
                 m_stabilizationCount++;
                 state = Enumerations.States.Populated;
                 return;
@@ -152,6 +153,11 @@ public class Node
                     nodeDecal.transform.localScale = decalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                 }
+                else
+                {
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.localScale = decalScale;
+                }
                 break;
             case Enumerations.States.Potential_Complex:
                 if (nodeDecal == null)
@@ -161,24 +167,38 @@ public class Node
                     nodeDecal.transform.localScale = decalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                 }
+                else
+                {
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.localScale = decalScale;
+                }
                 break;
             case Enumerations.States.Complex:
                 if (nodeDecal == null) {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
-                    nodeDecal.transform.localScale = decalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                     nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
+                    if (complexity == 0)
+                    {
+                        Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0.");
+                    }
                 }
                 else
                 {
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
                     nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
+                    if (complexity == 0)
+                    {
+                        Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0 and the node already existed.");
+                    }
                 }
                 break;
             case Enumerations.States.Border:
                 if (nodeDecal != null)
                 {
                     GameObject.Destroy(nodeDecal);
+                    Debug.Log("A node decal at " + nodeDecal.transform.position + " was destroyed because it became a border.");
                 }
                 break;
         }

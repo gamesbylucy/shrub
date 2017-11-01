@@ -25,7 +25,6 @@ public class LandscapeBuilder : MonoBehaviour{
     private Vector4 m_tangent;
     private MeshCollider m_meshCollider;
     private float m_stepSpeed;
-    private List<Node> m_potentialComplexes;
 
     /****************************************************************************************************
      * Constant Members
@@ -63,7 +62,6 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mapWidth = width;
         m_mapHeight = height;
         m_stepSpeed = initialStepSpeed;
-        m_potentialComplexes = new List<Node>();
         initializeMeshData();
         calculateSquareMeshData();
         assignNodeNeighbors();
@@ -349,37 +347,64 @@ public class LandscapeBuilder : MonoBehaviour{
         }
     }
 
+    /**
+    * @Place all nodes in the Potential_Complex state in a list, scan over them, and determine the initial complexity and placement.
+    */
     public void setNextComplexes()
     {
+        List<Node> potentialComplexes = new List<Node>();
+        /**
+        * Add all the potential complex nodes to a list.
+        */
         foreach (Node node in m_nodes)
         {
-            if (node != null && node.state == Enumerations.States.Potential_Complex)
+            if (node.state == Enumerations.States.Potential_Complex)
             {
-                m_potentialComplexes.Add(node);
+                potentialComplexes.Add(node);
             }
         }
 
-        foreach (Node potentialComplex in m_potentialComplexes)
+        /**
+         * Give each potential complex an random ranking.
+         */
+        foreach (Node potentialComplex in potentialComplexes)
         {
             potentialComplex.rank = (float)ShrubUtils.random.NextDouble();
         }
 
-        foreach (Node potentialComplex in m_potentialComplexes)
+        /**
+         * Scan over all potential complexes.
+         */
+        foreach (Node potentialComplex in potentialComplexes)
         {
+            /**
+            * For each neighbor of the potential complex.
+            */
             foreach (Node neighbor in potentialComplex.neighbors)
             {
-                if (neighbor.isComplex)
+                /**
+                * If the neighbor is complex...
+                */
+                if (neighbor.state == Enumerations.States.Potential_Complex)
                 {
+                    /**
+                    * ...if the neighbor is a higher rank, continue to the next neighbor without incrementing the complexity.
+                    */
                     if (neighbor.rank > potentialComplex.rank)
                     {
-                        potentialComplex.state = Enumerations.States.Stable;
                         continue;
                     }
+                    /**
+                    * ..else if the neighbor is of an equal rank...
+                    */
                     else if (neighbor.rank == potentialComplex.rank)
                     {
+                        /**
+                        * ...50 percent chance to move to the next neighbor without incrementing the complexity.
+                        * Otherwise, increment the complexity by 2.
+                        */
                         if (.5f > (float)ShrubUtils.random.NextDouble())
                         {
-                            potentialComplex.state = Enumerations.States.Stable;
                             continue;
                         }
                         else
@@ -387,23 +412,43 @@ public class LandscapeBuilder : MonoBehaviour{
                             potentialComplex.complexity += 2;
                         }
                     }
+                    /**
+                     * ...else if the neighbor is of a lower rank, increment the complexity by 2.
+                     */
                     else
                     {
                         potentialComplex.complexity += 2;
                     }
                 }
-                else if (neighbor.isStable)
+                /**
+                 * Else if the neighbor is stable, but not complex, increment the complexity by 1.
+                 */
+                else if (neighbor.state == Enumerations.States.Stable)
                 {
                     potentialComplex.complexity++;
                 }
             }
 
-            potentialComplex.state = Enumerations.States.Complex;
-            foreach (Node neighbor in potentialComplex.neighbors)
+            /**
+            * If the complexity has not been incremented, return out of the method without modifying the node.
+            */
+            if (potentialComplex.complexity == 0)
             {
-                if (neighbor != null)
+                continue;
+            }
+            /**
+             * If the complexity has been incremented, set the nodes state to complex, and set its neighbors states to border.
+             */
+            else
+            {
+                potentialComplex.state = Enumerations.States.Complex;
+
+                foreach (Node neighbor in potentialComplex.neighbors)
                 {
-                    neighbor.state = Enumerations.States.Border;
+                    if (neighbor != null)
+                    {
+                        neighbor.state = Enumerations.States.Border;
+                    }
                 }
             }
         }
