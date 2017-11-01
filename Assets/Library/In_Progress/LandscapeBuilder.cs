@@ -25,8 +25,7 @@ public class LandscapeBuilder : MonoBehaviour{
     private Vector4 m_tangent;
     private MeshCollider m_meshCollider;
     private float m_stepSpeed;
-    private List<Node> m_complexNodes;
-    private List<Complex> m_complexes;
+    private List<Node> m_potentialComplexes;
 
     /****************************************************************************************************
      * Constant Members
@@ -64,8 +63,7 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mapWidth = width;
         m_mapHeight = height;
         m_stepSpeed = initialStepSpeed;
-        m_complexNodes = new List<Node>();
-        m_complexes = new List<Complex>();
+        m_potentialComplexes = new List<Node>();
         initializeMeshData();
         calculateSquareMeshData();
         assignNodeNeighbors();
@@ -74,7 +72,7 @@ public class LandscapeBuilder : MonoBehaviour{
         assignMeshData();
         assignSharedMesh();
         seedPopulation(Enumerations.SeedTypes.Random);
-        updateElevationByPopulation();
+        setPopulationMesh();
         m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateTangents();
@@ -127,7 +125,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void Start()
     {
-        InvokeRepeating("stepSimulation", m_stepSpeed, m_stepSpeed);
+        InvokeRepeating("step", m_stepSpeed, m_stepSpeed);
     }
 
     private void Update()
@@ -261,7 +259,7 @@ public class LandscapeBuilder : MonoBehaviour{
         {
             if (node.neighbors.Count < 8)
             {
-                node.isLandscapeBorder = true;
+                node.state = Enumerations.States.Border;
             }
         }
     }
@@ -273,14 +271,14 @@ public class LandscapeBuilder : MonoBehaviour{
             bool hasLandscapeBorderNeighbor = false;
             foreach (Node neighbor in node.neighbors)
             {
-                if (neighbor.isLandscapeBorder == true)
+                if (neighbor.state == Enumerations.States.Border)
                 {
                     hasLandscapeBorderNeighbor = true;
                     break;
                 }
             }
 
-            if (node.isLandscapeBorder)
+            if (node.state == Enumerations.States.Border)
             {
                 node.initialSeedProbability = 0;
             }
@@ -307,8 +305,7 @@ public class LandscapeBuilder : MonoBehaviour{
                 {
                     if ((float)ShrubUtils.random.NextDouble() < node.initialSeedProbability)
                     {
-                        node.isPopulated = true;
-                        node.isPopulatedNextTick = true;
+                        node.state = Enumerations.States.Populated;
                     }
                 }
                 break;
@@ -319,23 +316,101 @@ public class LandscapeBuilder : MonoBehaviour{
         }
     }
 
-    /**
-     * @brief Randomizes the elevation of all landscape nodes.
-     */
-    private void randomizeElevation(Node[,] nodes, float elevationLowerBound, float elevationUpperBound)
+    private void step()
     {
-        Vector3[] theVertices = new Vector3[m_vertices.Length];
-        for (int i = 0; i < nodes.GetLength(0); i++)
-        {
-            for (int j = 0; j < nodes.GetLength(1); j++)
-            {
-                theVertices[nodes[i, j].vertexIndex] = (nodes[i, j].vertex += new Vector3(0, Random.Range(elevationLowerBound, elevationUpperBound), 0));
-            }
-        }
-        m_mesh.vertices = theVertices;
+        setCurrentFlags();
+        setPopulationMesh();
+        setDecals();
+        setNextStates();
+        setNextComplexes();
     }
 
-    private void updateElevationByPopulation()
+    public void setCurrentFlags()
+    {
+        foreach (Node node in m_nodes)
+        {
+            node.setFlags();
+        }
+    }
+
+    public void setDecals()
+    {
+        foreach (Node node in m_nodes)
+        {
+            node.setDecal();
+        }
+    }
+
+    public void setNextStates()
+    {
+        foreach (Node node in m_nodes)
+        {
+            node.setNextState();
+        }
+    }
+
+    public void setNextComplexes()
+    {
+        foreach (Node node in m_nodes)
+        {
+            if (node != null && node.state == Enumerations.States.Potential_Complex)
+            {
+                m_potentialComplexes.Add(node);
+            }
+        }
+
+        foreach (Node potentialComplex in m_potentialComplexes)
+        {
+            potentialComplex.rank = (float)ShrubUtils.random.NextDouble();
+        }
+
+        foreach (Node potentialComplex in m_potentialComplexes)
+        {
+            foreach (Node neighbor in potentialComplex.neighbors)
+            {
+                if (neighbor.isComplex)
+                {
+                    if (neighbor.rank > potentialComplex.rank)
+                    {
+                        potentialComplex.state = Enumerations.States.Stable;
+                        continue;
+                    }
+                    else if (neighbor.rank == potentialComplex.rank)
+                    {
+                        if (.5f > (float)ShrubUtils.random.NextDouble())
+                        {
+                            potentialComplex.state = Enumerations.States.Stable;
+                            continue;
+                        }
+                        else
+                        {
+                            potentialComplex.complexity += 2;
+                        }
+                    }
+                    else
+                    {
+                        potentialComplex.complexity += 2;
+                    }
+                }
+                else if (neighbor.isStable)
+                {
+                    potentialComplex.complexity++;
+                }
+            }
+
+            potentialComplex.state = Enumerations.States.Complex;
+            foreach (Node neighbor in potentialComplex.neighbors)
+            {
+                if (neighbor != null)
+                {
+                    neighbor.state = Enumerations.States.Border;
+                }
+            }
+        }
+    }
+
+
+    private void setPopulationMesh()
     {
         Vector3[] theVertices = new Vector3[m_vertices.Length];
         foreach (Node node in m_nodes)
@@ -354,147 +429,6 @@ public class LandscapeBuilder : MonoBehaviour{
             }
         }
         m_mesh.vertices = theVertices;
-    }
-
-    private void tickNodes()
-    {
-        if (m_nodes != null)
-        {
-            foreach (Node node in m_nodes)
-            {
-                if (!node.isLocked)
-                {
-                    node.tick();
-                }
-            }
-        }
-    }
-
-    private void stepSimulation()
-    {
-        updatePopulationState();
-        updateElevationByPopulation();
-        updateStabilizationState();
-        updateComplexState();
-        tickNodes();
-    }
-
-    private void updateStabilizationState()
-    {
-        foreach (Node node in m_nodes)
-        {
-            node.updateStabilizationStatus();
-        }
-    }
-
-    private void updateComplexState()
-    {
-
-        foreach (Node node in m_nodes)
-        {
-            if (node.isComplexNextTick)
-            {
-                node.isComplex = true;
-                m_complexNodes.Add(node);
-            }
-            else
-            {
-                node.isComplex = false;
-                m_complexNodes.Remove(node);
-            }
-        }
-        rankComplexNodes();
-        createComplexes();
-        m_complexNodes.Clear();
-    }
-
-    private void rankComplexNodes()
-    {
-        foreach (Node node in m_complexNodes)
-        {
-            node.rank = (float)ShrubUtils.random.NextDouble();
-        }
-    }
-
-    private void createComplexes()
-    {
-        foreach (Node complex in m_complexNodes)
-        {
-            int complexity = 1;
-            int complexSize = 1;
-            bool isComplexFormed = true;
-            
-            foreach (Node neighbor in complex.neighbors)
-            {
-                if (neighbor.isComplex)
-                {
-                    if (neighbor.rank > complex.rank)
-                    {
-                        isComplexFormed = false;
-                    }
-                    else if (neighbor.rank == complex.rank)
-                    {
-                        if (.5f > (float)ShrubUtils.random.NextDouble())
-                        {
-                            isComplexFormed = false;
-                        }
-                        else
-                        {
-                            complexSize++;
-                            complexity++;
-                        }
-                    }
-                    else
-                    {
-                        complexSize++;
-                        complexity++;
-                    }
-                }
-                else if (neighbor.isStable)
-                {
-                    complexSize++;
-                }
-            }
-
-            if (isComplexFormed == true)
-            {
-                Complex theComplex = new Complex();
-                theComplex.size = complexSize;
-                theComplex.complexity = complexity;
-                theComplex.add(complex);
-                theComplex.setMemberColor();
-                complex.isPopulated = true;
-                complex.isPopulatedNextTick = true;
-                complex.isStable = true;
-                complex.isStableNextTick = true;
-                complex.isComplex = false;
-                complex.isComplexNextTick = false;
-                complex.isLocked = true;
-                complex.nodeDecal.transform.localScale = new Vector3(1, theComplex.size, 1);
-                foreach(Node neighbor in complex.neighbors)
-                {
-                    Destroy(neighbor.nodeDecal);
-                    neighbor.isPopulated = false;
-                    neighbor.isPopulatedNextTick = false;
-                    neighbor.isStable = false;
-                    neighbor.isStableNextTick = false;
-                    neighbor.isComplex = false;
-                    neighbor.isComplexNextTick = false;
-                    neighbor.isLocked = true;
-                }
-            }
-        }
-    }
-
-    private void updatePopulationState()
-    {
-        if (m_nodes != null)
-        {
-            foreach (Node node in m_nodes)
-            {
-                node.updatePopulatedStatus();
-            }
-        }
     }
 
     /****************************************************************************************************

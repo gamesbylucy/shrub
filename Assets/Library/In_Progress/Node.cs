@@ -10,17 +10,14 @@ public class Node
     * Public Members
     ****************************************************************************************************/
     public bool isPopulated = false;
-    public bool isPopulatedNextTick = false;
     public bool isStable = false;
     public bool isStableNextTick = false;
-    public bool isStableNodeBorder = false;
     public bool isComplex = false;
-    public bool isComplexNextTick = false;
-    public bool isComplexMember = false;
-    public bool isLandscapeBorder = false;
     public bool isLocked = false;
     public float rank;
+    public Enumerations.States state = Enumerations.States.Unpopulated;
     public int vertexIndex; //index of associated vertex
+    public int complexity;
     public float initialSeedProbability;
     public List<Node> neighbors; //TBD neighbor ordering
     public Vector3 vertex;
@@ -33,9 +30,7 @@ public class Node
     ****************************************************************************************************/
     private int m_neighborCount = 0;
     private int m_stableNeighborCount = 0;
-    private int m_stablizationCount = 0;
-
-
+    private int m_stabilizationCount = 0;
 
     /****************************************************************************************************
     * Constants
@@ -45,73 +40,149 @@ public class Node
     /****************************************************************************************************
     * Public Methods
     ****************************************************************************************************/
-    public void tick()
-    {
-        m_neighborCount = getNeighborCount();
-        setNextState(m_neighborCount);
-    }
 
-    /**
-        * @brief Determine the nodes state the next frame depending on the status of the node.
-        */
-    public void updateStabilizationStatus()
+    public void setNextState()
     {
-        if (isStableNextTick && !isLandscapeBorder)
+        if (isLocked == false)
         {
-            isStable = true;
-            if (nodeDecal == null)
+            if (isPopulated == true)
             {
-                nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
-                nodeDecal.transform.localScale = decalScale;
-                nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
-            }
-            isPopulated = true;
-            isPopulatedNextTick = true;
-        }
-        else
-        {
-            isStable = false;
-        }
-    }
-
-    /**
-        * @brief Update the population status of the node.
-        */
-    public void updatePopulatedStatus()
-    {
-        if (isPopulatedNextTick == true)
-        {
-            isPopulated = true;
-            isPopulatedNextTick = false;
-        }
-        else
-        {
-            isPopulated = false;
-        }
-    }
-
-    /**
-     * DEPRECIATED
-     * public void updateComplexMembership()
-    {
-        if (isComplexNextTick && !isComplex)
-        {
-            isComplex = true;
-            Complex theComplex = new Complex();
-            theComplex.add(this);
-            setDecalColor(theComplex.color);
-            foreach (Node neighbor in neighbors)
-            {
-                if (neighbor.isStable && !neighbor.isComplex)
+                if (!isStable && (getNumPopulatedNeighbors() < 2 || getNumPopulatedNeighbors() > 3))
                 {
-                    isComplex = true;
-                    theComplex.add(neighbor);
-                    neighbor.setDecalColor(theComplex.color);
+                    m_stabilizationCount = 0;
+                    state = Enumerations.States.Unpopulated;
+                    return;
+                }
+
+                if (m_stabilizationCount >= STABLIZATION_PERIOD)
+                {
+                    if (getNumStableNeighbors() >= 3)
+                    {
+                        if (getNumComplexNeighbors() > 0)
+                        {
+                            state = Enumerations.States.Potential_Complex;
+                            return;
+                        }
+                        state = Enumerations.States.Complex;
+                        return;
+                    }
+                    state = Enumerations.States.Stable;
+                    return;
+                }
+                m_stabilizationCount++;
+                state = Enumerations.States.Populated;
+                return;
+            }
+            else
+            {
+                if (getNumPopulatedNeighbors() == 3)
+                {
+                    m_stabilizationCount++;
+                    state = Enumerations.States.Populated;
+                    return;
                 }
             }
+            m_stabilizationCount = 0;
+            state = Enumerations.States.Unpopulated;
+            return;
         }
-    }*/
+    }
+
+    public void setFlags()
+    {
+        Enumerations.States theState = state;
+        switch (theState)
+        {
+            case Enumerations.States.Unpopulated:
+                isPopulated = false;
+                isStable = false;
+                isComplex = false;
+                isLocked = false;
+                break;
+            case Enumerations.States.Populated:
+                isPopulated = true;
+                isStable = false;
+                isComplex = false;
+                isLocked = false;
+                break;
+            case Enumerations.States.Stable:
+                isPopulated = true;
+                isStable = true;
+                isComplex = false;
+                isLocked = false;
+                break;
+            case Enumerations.States.Potential_Complex:
+                isPopulated = true;
+                isStable = true;
+                isComplex = false;
+                isLocked = false;
+                break;
+            case Enumerations.States.Complex:
+                isPopulated = true;
+                isStable = true;
+                isComplex = true;
+                isLocked = false;
+                break;
+            case Enumerations.States.Border:
+                isPopulated = false;
+                isStable = false;
+                isComplex = false;
+                isLocked = true;
+                break;
+        }
+    }
+
+
+    public void setDecal()
+    {
+        Enumerations.States theState = state;
+        switch (theState)
+        {
+            case Enumerations.States.Unpopulated:
+                nodeDecal = null;
+                break;
+            case Enumerations.States.Populated:
+                nodeDecal = null;
+                break;
+            case Enumerations.States.Stable:
+                if (nodeDecal == null)
+                {
+                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.localScale = decalScale;
+                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
+                }
+                break;
+            case Enumerations.States.Potential_Complex:
+                if (nodeDecal == null)
+                {
+                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.localScale = decalScale;
+                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
+                }
+                break;
+            case Enumerations.States.Complex:
+                if (nodeDecal == null) {
+                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.localScale = decalScale;
+                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
+                    nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
+                }
+                else
+                {
+                    nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
+                }
+                break;
+            case Enumerations.States.Border:
+                if (nodeDecal != null)
+                {
+                    GameObject.Destroy(nodeDecal);
+                }
+                break;
+        }
+    }
 
     public int getNumStableNeighbors()
     {
@@ -146,66 +217,16 @@ public class Node
     /****************************************************************************************************
     * Private Methods
     ****************************************************************************************************/
-
-
-
-
-    /**
-        * @brief Determine the number of populated neighbors the node has.
-        */
-    private int getNeighborCount()
+    private int getNumPopulatedNeighbors()
     {
-        int result = 0;
+        int numPopulated = 0;
         foreach (Node neighbor in neighbors)
         {
-            if (neighbor.isPopulated)
+            if (neighbor.isPopulated == true)
             {
-                result++;
+                numPopulated++;
             }
         }
-
-        return result;
-    }
-
-    /**
-        * @brief Set the state of the node the next tick.
-        */
-    private void setNextState(int neighborCount)
-    {
-        if (isPopulated == true)
-        {
-            if (neighborCount < 2 || neighborCount > 3 && !isStable)
-            {
-                isPopulatedNextTick = false;
-                m_stablizationCount = 0;
-            }
-            else
-            {
-                isPopulatedNextTick = true;
-                m_stablizationCount++;
-            }
-        }
-        else
-        {
-            if (neighborCount == 3)
-            {
-                isPopulatedNextTick = true;
-                m_stablizationCount++;
-            }
-        }
-
-        if (m_stablizationCount >= STABLIZATION_PERIOD)
-        {
-            isStableNextTick = true;
-            m_stablizationCount = 0;
-        }
-
-        if (isStable)
-        {
-            if (getNumStableNeighbors() == 3)
-            {
-                isComplexNextTick = true;
-            }
-        }
+        return numPopulated;
     }
 }
