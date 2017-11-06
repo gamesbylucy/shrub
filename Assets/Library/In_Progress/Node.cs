@@ -54,11 +54,41 @@ public class Node
                     return;
                 }
 
-                if (m_stabilizationCount >= STABLIZATION_PERIOD)
+                if (isComplex)
+                {
+                    state = Enumerations.States.Complex;
+                    return;
+                }
+                else
+                {
+                    if (isStable)
+                    {
+                        if (getNumStableNeighbors() >= 3)
+                        {
+                            state = Enumerations.States.Potential_Complex;
+                            return;
+                        }
+                        else
+                        {
+                            state = Enumerations.States.Stable;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (m_stabilizationCount >= STABLIZATION_PERIOD)
+                        {
+                            state = Enumerations.States.Stable;
+                            return;
+                        }
+                    }
+                }
+
+                /*if (m_stabilizationCount >= STABLIZATION_PERIOD)
                 {
                     if (getNumStableNeighbors() >= 3)
                     {
-                        if (getNumComplexNeighbors() > 0)
+                        if (!isComplex)
                         {
                             state = Enumerations.States.Potential_Complex;
                             return;
@@ -68,7 +98,7 @@ public class Node
                     }
                     state = Enumerations.States.Stable;
                     return;
-                }
+                }*/
 
                 m_stabilizationCount++;
                 state = Enumerations.States.Populated;
@@ -166,11 +196,13 @@ public class Node
                     nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
                     nodeDecal.transform.localScale = decalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
+                    setDecalColor(Color.blue);
                 }
                 else
                 {
                     nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
                     nodeDecal.transform.localScale = decalScale;
+                    setDecalColor(Color.green);
                 }
                 break;
             case Enumerations.States.Complex:
@@ -182,7 +214,9 @@ public class Node
                     if (complexity == 0)
                     {
                         Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0.");
+                        setDecalColor(Color.red);
                     }
+                    
                 }
                 else
                 {
@@ -191,6 +225,7 @@ public class Node
                     if (complexity == 0)
                     {
                         Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0 and the node already existed.");
+                        setDecalColor(Color.black);
                     }
                 }
                 break;
@@ -199,6 +234,7 @@ public class Node
                 {
                     GameObject.Destroy(nodeDecal);
                     Debug.Log("A node decal at " + nodeDecal.transform.position + " was destroyed because it became a border.");
+                    nodeDecal = null;
                 }
                 break;
         }

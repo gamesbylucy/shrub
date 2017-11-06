@@ -377,32 +377,16 @@ public class LandscapeBuilder : MonoBehaviour{
          */
         foreach (Node potentialComplex in potentialComplexes)
         {
-            /**
-            * For each neighbor of the potential complex.
-            */
             foreach (Node neighbor in potentialComplex.neighbors)
             {
-                /**
-                * If the neighbor is complex...
-                */
                 if (neighbor.state == Enumerations.States.Potential_Complex)
                 {
-                    /**
-                    * ...if the neighbor is a higher rank, continue to the next neighbor without incrementing the complexity.
-                    */
                     if (neighbor.rank > potentialComplex.rank)
                     {
                         continue;
                     }
-                    /**
-                    * ..else if the neighbor is of an equal rank...
-                    */
                     else if (neighbor.rank == potentialComplex.rank)
                     {
-                        /**
-                        * ...50 percent chance to move to the next neighbor without incrementing the complexity.
-                        * Otherwise, increment the complexity by 2.
-                        */
                         if (.5f > (float)ShrubUtils.random.NextDouble())
                         {
                             continue;
@@ -412,43 +396,27 @@ public class LandscapeBuilder : MonoBehaviour{
                             potentialComplex.complexity += 2;
                         }
                     }
-                    /**
-                     * ...else if the neighbor is of a lower rank, increment the complexity by 2.
-                     */
                     else
                     {
                         potentialComplex.complexity += 2;
                     }
                 }
-                /**
-                 * Else if the neighbor is stable, but not complex, increment the complexity by 1.
-                 */
                 else if (neighbor.state == Enumerations.States.Stable)
                 {
                     potentialComplex.complexity++;
                 }
             }
 
-            /**
-            * If the complexity has not been incremented, return out of the method without modifying the node.
-            */
             if (potentialComplex.complexity == 0)
             {
                 continue;
             }
-            /**
-             * If the complexity has been incremented, set the nodes state to complex, and set its neighbors states to border.
-             */
             else
             {
                 potentialComplex.state = Enumerations.States.Complex;
-
                 foreach (Node neighbor in potentialComplex.neighbors)
                 {
-                    if (neighbor != null)
-                    {
-                        neighbor.state = Enumerations.States.Border;
-                    }
+                    neighbor.state = Enumerations.States.Border;
                 }
             }
         }
