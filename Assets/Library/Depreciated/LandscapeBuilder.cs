@@ -19,7 +19,7 @@ public class LandscapeBuilder : MonoBehaviour{
     private Vector3[] m_vertices;
     private Vector2[] m_uv;
     private Vector4[] m_tangents;
-    private Node[,] m_nodes;
+    private WorldMapVertex[,] m_nodes;
     private int[] m_triangles;
     private Mesh m_mesh;
     private Vector4 m_tangent;
@@ -96,7 +96,7 @@ public class LandscapeBuilder : MonoBehaviour{
                     arrayString += "[" + m_nodes[i, j].vertexIndex + "]";
                 }
                 neighborString += "Node " + m_nodes[i, j].vertexIndex + "'s neighbors:\n";
-                foreach (Node node in m_nodes[i, j].neighbors)
+                foreach (WorldMapVertex node in m_nodes[i, j].neighbors)
                 {
                     neighborString += "[" + node.vertexIndex + "]";
                 }
@@ -153,7 +153,7 @@ public class LandscapeBuilder : MonoBehaviour{
         m_vertices = new Vector3[(m_mapWidth + 1) * (m_mapHeight + 1)];
         m_uv = new Vector2[m_vertices.Length];
         m_tangents = new Vector4[m_vertices.Length];
-        m_nodes = new Node[m_mapHeight + 1, m_mapWidth + 1];
+        m_nodes = new WorldMapVertex[m_mapHeight + 1, m_mapWidth + 1];
         m_triangles = new int[m_mapWidth * m_mapHeight * 6];
         m_tangent = new Vector4(1f, 0f, 0f, -1f);
     }
@@ -169,9 +169,9 @@ public class LandscapeBuilder : MonoBehaviour{
             for (int x = 0; x <= m_mapWidth; x++, i++)
             {
                 m_vertices[i] = new Vector3(x, 0, y);
-                Node theNode = new Node();
+                WorldMapVertex theNode = new WorldMapVertex();
                 theNode.vertexIndex = i;
-                theNode.vertex = m_vertices[i];
+                //theNode.vertex = m_vertices[i];
                 m_nodes[y, x] = theNode;
                 m_uv[i] = new Vector2((float)x / m_mapWidth, (float)y / m_mapHeight);
                 m_tangents[i] = m_tangent;
@@ -232,9 +232,9 @@ public class LandscapeBuilder : MonoBehaviour{
      * @param y The y coordinate of the node.
      * @param x The x coordinate of the node.
      */
-    private List<Node> getNeighbors(Node[ , ] nodes, int y, int x)
+    private List<WorldMapVertex> getNeighbors(WorldMapVertex[ , ] nodes, int y, int x)
     {
-        List<Node> theNodes = new List<Node>();
+        List<WorldMapVertex> theNodes = new List<WorldMapVertex>();
 
         foreach (int[] direction in directions)
         {
@@ -251,9 +251,9 @@ public class LandscapeBuilder : MonoBehaviour{
         return theNodes;
     }
 
-    private void checkForLandscapeBorders(Node[ , ] landscape)
+    private void checkForLandscapeBorders(WorldMapVertex[ , ] landscape)
     {
-        foreach (Node node in landscape)
+        foreach (WorldMapVertex node in landscape)
         {
             if (node.neighbors.Count < 8)
             {
@@ -262,12 +262,12 @@ public class LandscapeBuilder : MonoBehaviour{
         }
     }
 
-    private void setSeedProbability(Node[ , ] landscape, float baseSeedProbability)
+    private void setSeedProbability(WorldMapVertex[ , ] landscape, float baseSeedProbability)
     {
-        foreach (Node node in landscape)
+        foreach (WorldMapVertex node in landscape)
         {
             bool hasLandscapeBorderNeighbor = false;
-            foreach (Node neighbor in node.neighbors)
+            foreach (WorldMapVertex neighbor in node.neighbors)
             {
                 if (neighbor.state == Enumerations.States.Border)
                 {
@@ -299,7 +299,7 @@ public class LandscapeBuilder : MonoBehaviour{
         switch (seedType)
         {
             case Enumerations.SeedTypes.Random:
-                foreach (Node node in m_nodes)
+                foreach (WorldMapVertex node in m_nodes)
                 {
                     if ((float)ShrubUtils.random.NextDouble() < node.initialSeedProbability)
                     {
@@ -325,7 +325,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     public void setCurrentFlags()
     {
-        foreach (Node node in m_nodes)
+        foreach (WorldMapVertex node in m_nodes)
         {
             node.setFlags();
         }
@@ -333,7 +333,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     public void setDecals()
     {
-        foreach (Node node in m_nodes)
+        foreach (WorldMapVertex node in m_nodes)
         {
             node.setDecal();
         }
@@ -341,7 +341,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     public void setNextStates()
     {
-        foreach (Node node in m_nodes)
+        foreach (WorldMapVertex node in m_nodes)
         {
             node.setNextState();
         }
@@ -352,11 +352,11 @@ public class LandscapeBuilder : MonoBehaviour{
     */
     public void setNextComplexes()
     {
-        List<Node> potentialComplexes = new List<Node>();
+        List<WorldMapVertex> potentialComplexes = new List<WorldMapVertex>();
         /**
         * Add all the potential complex nodes to a list.
         */
-        foreach (Node node in m_nodes)
+        foreach (WorldMapVertex node in m_nodes)
         {
             if (node.state == Enumerations.States.Potential_Complex)
             {
@@ -367,7 +367,7 @@ public class LandscapeBuilder : MonoBehaviour{
         /**
          * Give each potential complex an random ranking.
          */
-        foreach (Node potentialComplex in potentialComplexes)
+        foreach (WorldMapVertex potentialComplex in potentialComplexes)
         {
             potentialComplex.rank = (float)ShrubUtils.random.NextDouble();
         }
@@ -375,9 +375,9 @@ public class LandscapeBuilder : MonoBehaviour{
         /**
          * Scan over all potential complexes.
          */
-        foreach (Node potentialComplex in potentialComplexes)
+        foreach (WorldMapVertex potentialComplex in potentialComplexes)
         {
-            foreach (Node neighbor in potentialComplex.neighbors)
+            foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
             {
                 if (neighbor.state == Enumerations.States.Potential_Complex)
                 {
@@ -414,7 +414,7 @@ public class LandscapeBuilder : MonoBehaviour{
             else
             {
                 potentialComplex.state = Enumerations.States.Complex;
-                foreach (Node neighbor in potentialComplex.neighbors)
+                foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
                 {
                     neighbor.state = Enumerations.States.Border;
                 }
@@ -426,7 +426,7 @@ public class LandscapeBuilder : MonoBehaviour{
     private void setPopulationMesh()
     {
         Vector3[] theVertices = new Vector3[m_vertices.Length];
-        foreach (Node node in m_nodes)
+        foreach (WorldMapVertex node in m_nodes)
         {
             if (node.isPopulated == true)
             {
@@ -443,6 +443,8 @@ public class LandscapeBuilder : MonoBehaviour{
         }
         m_mesh.vertices = theVertices;
     }
+
+    
 
     /****************************************************************************************************
      * Shrub Event Handlers

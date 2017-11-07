@@ -4,7 +4,7 @@ using UnityEngine;
     /**
     * @brief Stores data about nodes in the mesh to facilitate landscape generation algorithms.
     */
-public class Node
+public class WorldMapVertex
 {
     /****************************************************************************************************
     * Public Members
@@ -19,8 +19,8 @@ public class Node
     public int vertexIndex; //index of associated vertex
     public int complexity = 0;
     public float initialSeedProbability;
-    public List<Node> neighbors; //TBD neighbor ordering
-    public Vector3 vertex;
+    public List<WorldMapVertex> neighbors; //TBD neighbor ordering
+    public Vector3 position;
     public static Vector3 decalScale = new Vector3(.5f, 1, .5f);
     public GameObject nodeDecal;
 
@@ -28,8 +28,6 @@ public class Node
     /****************************************************************************************************
     * Private Members
     ****************************************************************************************************/
-    private int m_neighborCount = 0;
-    private int m_stableNeighborCount = 0;
     private int m_stabilizationCount = 0;
 
     /****************************************************************************************************
@@ -179,13 +177,13 @@ public class Node
                 if (nodeDecal == null)
                 {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.position = new Vector3(position.x, 1, position.z);
                     nodeDecal.transform.localScale = decalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                 }
                 else
                 {
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.position = new Vector3(position.x, 1, position.z);
                     nodeDecal.transform.localScale = decalScale;
                 }
                 break;
@@ -193,14 +191,14 @@ public class Node
                 if (nodeDecal == null)
                 {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.position = new Vector3(position.x, 1, position.z);
                     nodeDecal.transform.localScale = decalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                     setDecalColor(Color.blue);
                 }
                 else
                 {
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.position = new Vector3(position.x, 1, position.z);
                     nodeDecal.transform.localScale = decalScale;
                     setDecalColor(Color.green);
                 }
@@ -208,7 +206,7 @@ public class Node
             case Enumerations.States.Complex:
                 if (nodeDecal == null) {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.position = new Vector3(position.x, 1, position.z);
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                     nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
                     if (complexity == 0)
@@ -220,7 +218,7 @@ public class Node
                 }
                 else
                 {
-                    nodeDecal.transform.position = new Vector3(vertex.x, 1, vertex.z);
+                    nodeDecal.transform.position = new Vector3(position.x, 1, position.z);
                     nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
                     if (complexity == 0)
                     {
@@ -243,7 +241,7 @@ public class Node
     public int getNumStableNeighbors()
     {
         int numStableNeighbors = 0;
-        foreach (Node neighbor in neighbors)
+        foreach (WorldMapVertex neighbor in neighbors)
         {
             if (neighbor.isStable == true)
             {
@@ -256,7 +254,7 @@ public class Node
     public int getNumComplexNeighbors()
     {
         int numComplexNeighbors = 0;
-        foreach (Node neighbor in neighbors)
+        foreach (WorldMapVertex neighbor in neighbors)
         {
             if (neighbor.isComplex == true)
             {
@@ -276,7 +274,7 @@ public class Node
     private int getNumPopulatedNeighbors()
     {
         int numPopulated = 0;
-        foreach (Node neighbor in neighbors)
+        foreach (WorldMapVertex neighbor in neighbors)
         {
             if (neighbor.isPopulated == true)
             {
