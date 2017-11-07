@@ -19,17 +19,17 @@ public class LandscapeBuilder : MonoBehaviour{
     private Vector3[] m_vertices;
     private Vector2[] m_uv;
     private Vector4[] m_tangents;
-    private Node[,] m_nodes;
+    private WorldMapVertex[,] m_nodes;
     private int[] m_triangles;
     private Mesh m_mesh;
     private Vector4 m_tangent;
     private MeshCollider m_meshCollider;
+    private float m_stepSpeed;
 
     /****************************************************************************************************
      * Constant Members
      ****************************************************************************************************/
-    private const float TICK_SPEED = .05f;
-    private const float POPULATED_NODE_PROBABILITY = .7f;  
+
 
     /****************************************************************************************************
      * Static Members
@@ -49,9 +49,6 @@ public class LandscapeBuilder : MonoBehaviour{
         new int[] { 0, -1 }  //S
     };
 
-    private static System.Random random = new System.Random(System.DateTime.Now.Millisecond);
-    
-
 
     /****************************************************************************************************
      * Public Methods
@@ -60,17 +57,20 @@ public class LandscapeBuilder : MonoBehaviour{
     /**
      * @brief Calls private methods to build the components of the landscape.
      */
-    public void build(int width, int height)
+    public void build(int width, int height, float baseSeedProbability, float initialStepSpeed)
     {
         m_mapWidth = width;
         m_mapHeight = height;
+        m_stepSpeed = initialStepSpeed;
         initializeMeshData();
         calculateSquareMeshData();
         assignNodeNeighbors();
+        checkForLandscapeBorders(m_nodes);
+        setSeedProbability(m_nodes, baseSeedProbability);
         assignMeshData();
         assignSharedMesh();
         seedPopulation(Enumerations.SeedTypes.Random);
-        updateElevationByPopulation();
+        setPopulationMesh();
         m_mesh.RecalculateBounds();
         m_mesh.RecalculateNormals();
         m_mesh.RecalculateTangents();
@@ -96,7 +96,7 @@ public class LandscapeBuilder : MonoBehaviour{
                     arrayString += "[" + m_nodes[i, j].vertexIndex + "]";
                 }
                 neighborString += "Node " + m_nodes[i, j].vertexIndex + "'s neighbors:\n";
-                foreach (Node node in m_nodes[i, j].neighbors)
+                foreach (WorldMapVertex node in m_nodes[i, j].neighbors)
                 {
                     neighborString += "[" + node.vertexIndex + "]";
                 }
@@ -123,7 +123,7 @@ public class LandscapeBuilder : MonoBehaviour{
 
     private void Start()
     {
-        InvokeRepeating("stepSimulation", TICK_SPEED, TICK_SPEED);
+        InvokeRepeating("step", m_stepSpeed, m_stepSpeed);
     }
 
     private void Update()
@@ -153,7 +153,7 @@ public class LandscapeBuilder : MonoBehaviour{
         m_vertices = new Vector3[(m_mapWidth + 1) * (m_mapHeight + 1)];
         m_uv = new Vector2[m_vertices.Length];
         m_tangents = new Vector4[m_vertices.Length];
-        m_nodes = new Node[m_mapHeight + 1, m_mapWidth + 1];
+        m_nodes = new WorldMapVertex[m_mapHeight + 1, m_mapWidth + 1];
         m_triangles = new int[m_mapWidth * m_mapHeight * 6];
         m_tangent = new Vector4(1f, 0f, 0f, -1f);
     }
@@ -169,9 +169,9 @@ public class LandscapeBuilder : MonoBehaviour{
             for (int x = 0; x <= m_mapWidth; x++, i++)
             {
                 m_vertices[i] = new Vector3(x, 0, y);
-                Node theNode = new Node();
+                WorldMapVertex theNode = new WorldMapVertex();
                 theNode.vertexIndex = i;
-                theNode.vertex = m_vertices[i];
+                //theNode.vertex = m_vertices[i];
                 m_nodes[y, x] = theNode;
                 m_uv[i] = new Vector2((float)x / m_mapWidth, (float)y / m_mapHeight);
                 m_tangents[i] = m_tangent;
@@ -232,9 +232,9 @@ public class LandscapeBuilder : MonoBehaviour{
      * @param y The y coordinate of the node.
      * @param x The x coordinate of the node.
      */
-    private List<Node> getNeighbors(Node[ , ] nodes, int y, int x)
+    private List<WorldMapVertex> getNeighbors(WorldMapVertex[ , ] nodes, int y, int x)
     {
-        List<Node> theNodes = new List<Node>();
+        List<WorldMapVertex> theNodes = new List<WorldMapVertex>();
 
         foreach (int[] direction in directions)
         {
@@ -251,6 +251,46 @@ public class LandscapeBuilder : MonoBehaviour{
         return theNodes;
     }
 
+    private void checkForLandscapeBorders(WorldMapVertex[ , ] landscape)
+    {
+        foreach (WorldMapVertex node in landscape)
+        {
+            if (node.neighbors.Count < 8)
+            {
+                node.state = Enumerations.States.Border;
+            }
+        }
+    }
+
+    private void setSeedProbability(WorldMapVertex[ , ] landscape, float baseSeedProbability)
+    {
+        foreach (WorldMapVertex node in landscape)
+        {
+            bool hasLandscapeBorderNeighbor = false;
+            foreach (WorldMapVertex neighbor in node.neighbors)
+            {
+                if (neighbor.state == Enumerations.States.Border)
+                {
+                    hasLandscapeBorderNeighbor = true;
+                    break;
+                }
+            }
+
+            if (node.state == Enumerations.States.Border)
+            {
+                node.initialSeedProbability = 0;
+            }
+            else if (hasLandscapeBorderNeighbor == true)
+            {
+                node.initialSeedProbability = baseSeedProbability / 2;
+            }
+            else
+            {
+                node.initialSeedProbability = baseSeedProbability;
+            }
+        }
+    }
+
     /**
      * @brief Seeds the initial distribution of populated nodes.
      */
@@ -259,12 +299,11 @@ public class LandscapeBuilder : MonoBehaviour{
         switch (seedType)
         {
             case Enumerations.SeedTypes.Random:
-                foreach (Node node in m_nodes)
+                foreach (WorldMapVertex node in m_nodes)
                 {
-                    if ((float)random.NextDouble() < POPULATED_NODE_PROBABILITY)
+                    if ((float)ShrubUtils.random.NextDouble() < node.initialSeedProbability)
                     {
-                        node.isPopulated = true;
-                        node.isPopulatedNextTick = true;
+                        node.state = Enumerations.States.Populated;
                     }
                 }
                 break;
@@ -275,26 +314,119 @@ public class LandscapeBuilder : MonoBehaviour{
         }
     }
 
-    /**
-     * @brief Randomizes the elevation of all landscape nodes.
-     */
-    private void randomizeElevation(Node[,] nodes, float elevationLowerBound, float elevationUpperBound)
+    private void step()
     {
-        Vector3[] theVertices = new Vector3[m_vertices.Length];
-        for (int i = 0; i < nodes.GetLength(0); i++)
-        {
-            for (int j = 0; j < nodes.GetLength(1); j++)
-            {
-                theVertices[nodes[i, j].vertexIndex] = (nodes[i, j].vertex += new Vector3(0, Random.Range(elevationLowerBound, elevationUpperBound), 0));
-            }
-        }
-        m_mesh.vertices = theVertices;
+        setCurrentFlags();
+        setPopulationMesh();
+        setDecals();
+        setNextStates();
+        setNextComplexes();
     }
 
-    private void updateElevationByPopulation()
+    public void setCurrentFlags()
+    {
+        foreach (WorldMapVertex node in m_nodes)
+        {
+            node.setFlags();
+        }
+    }
+
+    public void setDecals()
+    {
+        foreach (WorldMapVertex node in m_nodes)
+        {
+            node.setDecal();
+        }
+    }
+
+    public void setNextStates()
+    {
+        foreach (WorldMapVertex node in m_nodes)
+        {
+            node.setNextState();
+        }
+    }
+
+    /**
+    * @Place all nodes in the Potential_Complex state in a list, scan over them, and determine the initial complexity and placement.
+    */
+    public void setNextComplexes()
+    {
+        List<WorldMapVertex> potentialComplexes = new List<WorldMapVertex>();
+        /**
+        * Add all the potential complex nodes to a list.
+        */
+        foreach (WorldMapVertex node in m_nodes)
+        {
+            if (node.state == Enumerations.States.Potential_Complex)
+            {
+                potentialComplexes.Add(node);
+            }
+        }
+
+        /**
+         * Give each potential complex an random ranking.
+         */
+        foreach (WorldMapVertex potentialComplex in potentialComplexes)
+        {
+            potentialComplex.rank = (float)ShrubUtils.random.NextDouble();
+        }
+
+        /**
+         * Scan over all potential complexes.
+         */
+        foreach (WorldMapVertex potentialComplex in potentialComplexes)
+        {
+            foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
+            {
+                if (neighbor.state == Enumerations.States.Potential_Complex)
+                {
+                    if (neighbor.rank > potentialComplex.rank)
+                    {
+                        continue;
+                    }
+                    else if (neighbor.rank == potentialComplex.rank)
+                    {
+                        if (.5f > (float)ShrubUtils.random.NextDouble())
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            potentialComplex.complexity += 2;
+                        }
+                    }
+                    else
+                    {
+                        potentialComplex.complexity += 2;
+                    }
+                }
+                else if (neighbor.state == Enumerations.States.Stable)
+                {
+                    potentialComplex.complexity++;
+                }
+            }
+
+            if (potentialComplex.complexity == 0)
+            {
+                continue;
+            }
+            else
+            {
+                potentialComplex.state = Enumerations.States.Complex;
+                foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
+                {
+                    neighbor.state = Enumerations.States.Border;
+                }
+            }
+        }
+    }
+
+
+    private void setPopulationMesh()
     {
         Vector3[] theVertices = new Vector3[m_vertices.Length];
-        foreach (Node node in m_nodes)
+        foreach (WorldMapVertex node in m_nodes)
         {
             if (node.isPopulated == true)
             {
@@ -312,24 +444,7 @@ public class LandscapeBuilder : MonoBehaviour{
         m_mesh.vertices = theVertices;
     }
 
-    private void tickNodes()
-    {
-        if (m_nodes != null)
-        {
-            foreach (Node node in m_nodes)
-            {
-                node.tick();
-            }
-        }
-    }
-
-    private void stepSimulation()
-    {
-        tickNodes();
-        updateElevationByPopulation();
-    }
-
-
+    
 
     /****************************************************************************************************
      * Shrub Event Handlers
@@ -351,68 +466,6 @@ public class LandscapeBuilder : MonoBehaviour{
         {
             Gizmos.color = Color.black;
             Gizmos.DrawSphere(m_vertices[i], 0.1f);
-        }
-    }
-
-    /****************************************************************************************************
-     * Inner Classes
-     ****************************************************************************************************/
-    /**
-     * @brief Stores data about nodes in the mesh to facilitate landscape generation algorithms.
-     */
-    private class Node
-    {
-        //public bool isStabilized = false;
-        //public bool isBorder = false;
-        public bool isPopulated = false;
-        public bool isPopulatedNextTick = false;
-        public int vertexIndex; //index of associated vertex
-        public List<Node> neighbors; //TBD neighbor ordering
-        public Vector3 vertex;
-
-        /**
-         * @brief Determine the nodes state the next frame depending on the status of the node.
-         */
-        public void tick()
-        {
-            int neighborCount = 0;
-
-            if (isPopulatedNextTick == true)
-            {
-                isPopulated = true;
-                isPopulatedNextTick = false;
-            }
-            else
-            {
-                isPopulated = false;
-            }
-
-            foreach (Node neighbor in neighbors)
-            {
-                if (neighbor.isPopulated)
-                {
-                    neighborCount++;
-                }
-            }
-
-            if (isPopulated == true)
-            {
-                if (neighborCount < 2 || neighborCount > 3)
-                {
-                    isPopulatedNextTick = false;
-                }
-                else
-                {
-                    isPopulatedNextTick = true;
-                }
-            }
-            else
-            {
-                if (neighborCount == 3)
-                {
-                    isPopulatedNextTick = true;
-                }
-            }
         }
     }
 }

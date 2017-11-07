@@ -50,4 +50,14 @@ public static class Enumerations {
         Above_Alpine = 3,
         Sky = 4
     }
+
+    public enum States
+    {
+        Unpopulated = 0,
+        Populated = 1,
+        Stable = 2,
+        Potential_Complex = 3,
+        Complex = 4,
+        Border = 5,
+    }
 }
