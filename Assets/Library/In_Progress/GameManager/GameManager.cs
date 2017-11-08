@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
      * Public Members
      */
     public int mapSize;
+    public int stabilizationPeriod;
     public float baseSeedProbability;
     public float stepSpeed;
 
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour {
 
     public void start()
     {
-        m_worldMap.init(mapSize, baseSeedProbability, stepSpeed);
+        m_worldMap.init(mapSize, baseSeedProbability, stepSpeed, stabilizationPeriod);
     }
 
     public void pause()

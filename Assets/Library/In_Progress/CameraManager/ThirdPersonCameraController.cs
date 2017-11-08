@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CinematicCamera : MonoBehaviour {
+public class ThirdPersonCameraController : MonoBehaviour, ICameraController {
 
 	// Use this for initialization
 	void Start () {

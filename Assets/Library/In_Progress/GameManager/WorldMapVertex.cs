@@ -29,15 +29,20 @@ public class WorldMapVertex
     * Private Members
     ****************************************************************************************************/
     private int m_stabilizationCount = 0;
+    private int stabilizationPeriod;
 
     /****************************************************************************************************
     * Constants
     ****************************************************************************************************/
-    private const int STABLIZATION_PERIOD = 15;
+
 
     /****************************************************************************************************
     * Public Methods
     ****************************************************************************************************/
+    public void init(int theStabilizationPeriod)
+    {
+        stabilizationPeriod = theStabilizationPeriod;
+    }
 
     public void setNextState()
     {
@@ -74,7 +79,7 @@ public class WorldMapVertex
                     }
                     else
                     {
-                        if (m_stabilizationCount >= STABLIZATION_PERIOD)
+                        if (m_stabilizationCount >= stabilizationPeriod)
                         {
                             state = Enumerations.States.Stable;
                             return;

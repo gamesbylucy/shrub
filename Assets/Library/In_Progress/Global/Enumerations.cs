@@ -13,42 +13,12 @@ public static class Enumerations {
         Chaotic = 2
     }
 
-    /**
-     * @brief   Enumeration to support selection of entity types for methods
-     */
-    public enum EntityTypes
-    {
-        Human = 0,
-        Animal = 1,
-        House = 2
-    }
-
-    /**
-     * @brief   Enumeration to support selection of entity types for methods
-     */
-    public enum LandscapeTypes
-    {
-        River = 0,
-        Mountain = 1,
-        Plain = 2,
-        Forest = 3
-    }
-
     public enum CardinalDirections
     {
         North = 0,
         East = 1,
         South = 2,
         West = 3
-    }
-
-    public enum Elevations
-    {
-        Valley = 0,
-        Sea_Level = 1,
-        Alpine = 2,
-        Above_Alpine = 3,
-        Sky = 4
     }
 
     public enum States
@@ -59,5 +29,12 @@ public static class Enumerations {
         Potential_Complex = 3,
         Complex = 4,
         Border = 5,
+    }
+
+    public enum InputModes
+    {
+        Menu = 0,
+        Game = 1,
+        Suspend = 2
     }
 }

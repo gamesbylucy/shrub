@@ -294,8 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d98ddacf4879f41bf96bc20d1e51ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 50
-  baseSeedProbability: 0.3
+  mapSize: 60
+  stabilizationPeriod: 100
+  baseSeedProbability: 0.2
   stepSpeed: 0.1
 --- !u!23 &888593036
 MeshRenderer:

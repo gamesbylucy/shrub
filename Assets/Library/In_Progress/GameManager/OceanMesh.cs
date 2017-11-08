@@ -1,22 +1,9 @@
-﻿/**
- * @brief Instantiates an n x n mesh representing populated vertices where n and updates it based on the state of a list of vertices.
- * 
- * There are two interfaces into the method. init initializes the mesh based on a given map size. Update mesh data updates the state
- * of the mesh based on a list of WorldMapVerticies passed as an argument.
- */
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldMapPopulationMesh : MonoBehaviour {
-    /**
-    * Public Members
-    */
+public class OceanMesh : MonoBehaviour {
 
-    /**
-     * Private Members
-     */
     private Vector3[] m_vertices;
     private Vector2[] m_uv;
     private Vector4[] m_tangents;
@@ -39,7 +26,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
 
     public void updateMeshData(WorldMapVertex[ , ] vertices)
     {
-        Vector3[] theVertices = new Vector3[m_vertices.Length];
+        /*Vector3[] theVertices = new Vector3[m_vertices.Length];
         Vector3 theVertex;
         foreach (WorldMapVertex vertex in vertices)
         {
@@ -76,7 +63,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
                 }
             }
         }
-        m_mesh.vertices = theVertices;
+        m_mesh.vertices = theVertices;*/
     }
 
     /**
@@ -86,8 +73,8 @@ public class WorldMapPopulationMesh : MonoBehaviour {
     {
         GetComponent<MeshFilter>().mesh = m_mesh = new Mesh();
         m_meshCollider = gameObject.AddComponent<MeshCollider>();
-        m_mesh.name = "WorldMapPopulationMesh";
-        Material newMat = Resources.Load("Materials/Grass", typeof(Material)) as Material;
+        m_mesh.name = "WorldMapOceanMesh";
+        Material newMat = Resources.Load("Materials/Ocean", typeof(Material)) as Material;
         GetComponent<Renderer>().material = newMat;
     }
 
@@ -103,8 +90,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
         {
             for (int x = 0; x <= mapSize; x++, i++)
             {
-                m_vertices[i] = new Vector3(x, 0, y);
-                
+                m_vertices[i] = new Vector3(x, .05f, y);
                 m_uv[i] = new Vector2((float)x / mapSize, (float)y / mapSize);
                 m_tangents[i] = m_tangent;
             }
