@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KBMInput : MonoBehaviour {
+    /**
+     * Public Members
+     */
+    public bool isActive;
+
+    /**
+     * Private Members
+     */
 
 	// Use this for initialization
 	void Start () {
@@ -11,6 +19,6 @@ public class KBMInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }

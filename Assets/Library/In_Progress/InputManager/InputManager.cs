@@ -3,25 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour {
+
+    public KeyCode moveForward;
+    public KeyCode moveBackward;
+    public KeyCode moveLeft;
+    public KeyCode moveRight;
+    public KeyCode moveUp;
+    public KeyCode moveDown;
+    public KeyCode rotateLeft;
+    public KeyCode rotateRight;
+    public KeyCode rotateUp;
+    public KeyCode rotateDown;
+    public KeyCode highlight;
+    public KeyCode toggleSelect;
+
+    private KBMInput m_kbmInput;
+
 	// Use this for initialization
 	void Start () {
-		
+        m_kbmInput = new KBMInput();
+        m_kbmInput.isActive = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-
-    /**
-     * Subscribes the manager to events in the EventSignals messenger class. For a detailed description
-     * of events, see the EventSignals class.
-     * 
-     * @return  Returns true if all events were successfully subscribed to. Otherwise returns false.
-     */
-    public bool subscribeToEvents()
-    {
-        //method stub
-        return true;
-    }
 }
