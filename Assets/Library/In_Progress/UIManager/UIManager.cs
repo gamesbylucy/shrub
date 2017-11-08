@@ -4,26 +4,8 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour {
 
-    /**
-     * @brief   Member keyboard and mouse input class used by UI manager.
-     */
-    private KBMInput m_kbmInput;
-
-    /**
-     * @brief   Member touch input class used by UI manager.
-     */
-    private TouchInput m_touchInput;
-
-    /**
-     * @brief   Member gamepad and mouse input class used by UI manager.
-     */
-    private GamepadInput m_gamepadInput;
-
 	// Use this for initialization
 	void Start () {
-        m_kbmInput = new KBMInput();
-        m_touchInput = new TouchInput();
-        m_gamepadInput = new GamepadInput();
 	}
 	
 	// Update is called once per frame

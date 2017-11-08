@@ -4,29 +4,87 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-    public KeyCode moveForward;
-    public KeyCode moveBackward;
-    public KeyCode moveLeft;
-    public KeyCode moveRight;
-    public KeyCode moveUp;
-    public KeyCode moveDown;
-    public KeyCode rotateLeft;
-    public KeyCode rotateRight;
-    public KeyCode rotateUp;
-    public KeyCode rotateDown;
-    public KeyCode highlight;
-    public KeyCode toggleSelect;
+    public KeyCode interactController;
+    public KeyCode interactKeyboard;
 
-    private KBMInput m_kbmInput;
+    private KBMButtonInput m_kbmInput;
+    private GamepadButtonInput m_gamepadInput;
+    private AxisInput m_axisInput;
+    private Enumerations.InputModes mode;
+    private List<IButtonInput> buttonInputs;
 
 	// Use this for initialization
 	void Start () {
-        m_kbmInput = new KBMInput();
-        m_kbmInput.isActive = true;
+
+        m_kbmInput = new KBMButtonInput();
+        m_gamepadInput = new GamepadButtonInput();
+        m_axisInput = new AxisInput();
+
+        buttonInputs = new List<IButtonInput>();
+        buttonInputs.Add(m_kbmInput);
+        buttonInputs.Add(m_gamepadInput);
+
+        mode = Enumerations.InputModes.Game;
+
+        updateGamepadButtons();
+        updateKeyboardButtons();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        /**
+         * On any button down or held.
+         */
+		if(Input.anyKey || Input.anyKeyDown)
+        {
+            foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(vKey))
+                {
+                    foreach (IButtonInput buttonInput in buttonInputs)
+                    {
+                        buttonInput.processInputDown(vKey);
+                    }
+                }
+                
+                if (Input.GetKey(vKey))
+                {
+                    foreach (IButtonInput buttonInput in buttonInputs)
+                    {
+                        buttonInput.processInputHeld (vKey);
+                    }
+                }
+            }
+        }
+
+        /**
+         * On any button up.
+         */
+        foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKeyUp(vKey))
+            {
+                foreach (IButtonInput buttonInput in buttonInputs)
+                {
+                    buttonInput.processInputUp(vKey);
+                }
+            }
+        }
+
+        /**
+         * On axis input.
+         */
+        m_axisInput.processAxis(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+    }
+
+    public void updateGamepadButtons()
+    {
+        m_gamepadInput.interact = interactKeyboard;
+    }
+
+    public void updateKeyboardButtons()
+    {
+        m_kbmInput.interact = interactController;
+    }
 }
