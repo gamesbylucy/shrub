@@ -13,4 +13,14 @@ public class IsometricCameraController : MonoBehaviour, ICameraController {
 	void Update () {
 		
 	}
+
+    public void processLeftAxis(float xMagnitude, float zMagnitude)
+    {
+
+    }
+
+    public void processRightAxis(float xMagnitude, float yMagnitude)
+    {
+
+    }
 }

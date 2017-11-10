@@ -39,16 +39,17 @@ public class KBMButtonInput : MonoBehaviour, IButtonInput {
             /**
              * Fire event "OnPlayerInteract" here.
              */
+            InputSignals.interactButtonDown(input);
         }
     }
 
     public void processInputHeld(KeyCode input)
     {
-        throw new NotImplementedException();
+
     }
 
     public void processInputUp(KeyCode input)
     {
-        throw new NotImplementedException();
+
     }
 }

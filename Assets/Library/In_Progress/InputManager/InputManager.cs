@@ -73,9 +73,14 @@ public class InputManager : MonoBehaviour {
         }
 
         /**
-         * On axis input.
+         * On left axis input.
          */
-        m_axisInput.processAxis(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        m_axisInput.processLeftAxis(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        /**
+         * On right axis input from mouse.
+         */
+        m_axisInput.processRightAxis(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
     }
 
     public void updateGamepadButtons()

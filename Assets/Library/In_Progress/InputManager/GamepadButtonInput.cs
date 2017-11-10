@@ -38,11 +38,11 @@ public class GamepadButtonInput : MonoBehaviour, IButtonInput {
 
     public void processInputHeld(KeyCode input)
     {
-        throw new NotImplementedException();
+
     }
 
     public void processInputUp(KeyCode input)
     {
-        throw new NotImplementedException();
+
     }
 }
