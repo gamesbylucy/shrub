@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
+    public float lookSensitivity;
     public KeyCode interactController;
     public KeyCode interactKeyboard;
 
@@ -80,7 +81,7 @@ public class InputManager : MonoBehaviour {
         /**
          * On right axis input from mouse.
          */
-        m_axisInput.processRightAxis(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        m_axisInput.processRightAxis(Input.GetAxis("Mouse X") * lookSensitivity, Input.GetAxis("Mouse Y") * lookSensitivity);
     }
 
     public void updateGamepadButtons()
