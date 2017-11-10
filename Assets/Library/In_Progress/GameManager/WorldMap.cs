@@ -12,7 +12,7 @@ public class WorldMap : MonoBehaviour {
      *Private Members
      */
     private WorldMapPopulationMesh m_worldMapPopulationMesh;
-    private OceanMesh m_oceanMesh;
+    private WorldMapOceanMesh m_oceanMesh;
     private WorldMapGraph m_worldMapGraph;
     
     /**
@@ -31,7 +31,7 @@ public class WorldMap : MonoBehaviour {
         ocean.transform.parent = transform.parent;
         ocean.AddComponent<MeshRenderer>();
         ocean.AddComponent<MeshFilter>();
-        m_oceanMesh = ocean.AddComponent<OceanMesh>();
+        m_oceanMesh = ocean.AddComponent<WorldMapOceanMesh>();
         m_oceanMesh.init(mapSize);
     }
 

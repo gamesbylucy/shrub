@@ -27,7 +27,6 @@ public class FirstPersonCameraController : MonoBehaviour, ICameraController {
         transform.position += transform.right * m_xMovement;
         transform.Rotate(Vector3.right, m_xRotation);
         transform.Rotate(Vector3.up, m_yRotation, 0);
-        
 	}
 
     public void processLeftAxis(float xMagnitude, float zMagnitude)

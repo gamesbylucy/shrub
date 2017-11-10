@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     private WorldMap m_worldMap;
     private float m_stepSpeed;
     private int m_stabilizationPeriod;
+    private const int MAX_MAP_SIZE = 254; 
 
     // Use this for initialization
     void Start () {
@@ -45,6 +46,11 @@ public class GameManager : MonoBehaviour {
 
     public void start()
     {
+        if (mapSize > MAX_MAP_SIZE)
+        {
+            Debug.Log("Map size cannot be greated than 254 in the current implementation. Setting map size to 254");
+            mapSize = MAX_MAP_SIZE;
+        }
         m_worldMap.init(mapSize, baseSeedProbability, m_stepSpeed, m_stabilizationPeriod);
     }
 

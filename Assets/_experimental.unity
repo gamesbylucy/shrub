@@ -331,10 +331,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d98ddacf4879f41bf96bc20d1e51ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 60
+  mapSize: 127
   secondsToStabilize: 30
   baseSeedProbability: 0.2
-  stepsPerSecond: 12
+  stepsPerSecond: 1
 --- !u!23 &888593036
 MeshRenderer:
   m_ObjectHideFlags: 0

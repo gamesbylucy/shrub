@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OceanMesh : MonoBehaviour {
+public class WorldMapOceanMesh : MonoBehaviour {
 
     private Vector3[] m_vertices;
     private Vector2[] m_uv;
@@ -73,7 +73,7 @@ public class OceanMesh : MonoBehaviour {
     {
         GetComponent<MeshFilter>().mesh = m_mesh = new Mesh();
         m_meshCollider = gameObject.AddComponent<MeshCollider>();
-        m_mesh.name = "WorldMapOceanMesh";
+        m_mesh.name = "WorldMapLandscapeMesh";
         Material newMat = Resources.Load("Materials/Ocean", typeof(Material)) as Material;
         GetComponent<Renderer>().material = newMat;
     }
