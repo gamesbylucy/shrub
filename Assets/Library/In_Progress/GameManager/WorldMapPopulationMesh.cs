@@ -24,20 +24,21 @@ public class WorldMapPopulationMesh : MonoBehaviour {
     private Mesh m_mesh;
     private MeshCollider m_meshCollider;
     private Vector4 m_tangent;
+    private float m_seaLevelAdjustment = 1f;
 
     /**
      * Public Methods
      */
-    public void init(int mapSize)
+    public void init(int mapSize, int mapScale)
     {
         instantiateMesh(mapSize);
-        setMeshGeometryData(mapSize);
+        setMeshGeometryData(mapSize, mapScale);
         updateMesh();
         updateMeshCollider();
         recalculateMesh();
     }
 
-    public void updateMeshData(WorldMapVertex[ , ] vertices)
+    public void updateMeshData(WorldMapVertex[ , ] vertices, int mapScale)
     {
         Vector3[] theVertices = new Vector3[m_vertices.Length];
         Vector3 theVertex;
@@ -46,7 +47,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
             if (vertex.isPopulated)
             {
                 theVertex = m_vertices[vertex.vertexIndex];
-                theVertex.y = 1;
+                theVertex.y = 1f * (mapScale/m_seaLevelAdjustment);
                 theVertices[vertex.vertexIndex] = theVertex;
             }
             else
@@ -91,7 +92,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
         GetComponent<Renderer>().material = newMat;
     }
 
-    private void setMeshGeometryData(int mapSize)
+    private void setMeshGeometryData(int mapSize, int mapScale)
     {
         m_vertices = new Vector3[(mapSize + 1) * (mapSize + 1)];
         m_uv = new Vector2[m_vertices.Length];
@@ -103,7 +104,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
         {
             for (int x = 0; x <= mapSize; x++, i++)
             {
-                m_vertices[i] = new Vector3(x, 0, y);
+                m_vertices[i] = new Vector3(x * mapScale, 0, y * mapScale);
                 m_uv[i] = new Vector2((float)x / mapSize, (float)y / mapSize);
                 m_tangents[i] = m_tangent;
             }

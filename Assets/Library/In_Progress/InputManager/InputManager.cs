@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputManager : MonoBehaviour {
 
     public float lookSensitivity;
+    public float moveSensitivity;
     public KeyCode interactController;
     public KeyCode interactKeyboard;
 
@@ -76,7 +77,7 @@ public class InputManager : MonoBehaviour {
         /**
          * On left axis input.
          */
-        m_axisInput.processLeftAxis(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        m_axisInput.processLeftAxis(Input.GetAxis("Horizontal") * moveSensitivity, Input.GetAxis("Vertical") * moveSensitivity);
 
         /**
          * On right axis input from mouse.

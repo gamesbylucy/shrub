@@ -42,9 +42,9 @@ public class WorldMapGraph : MonoBehaviour {
     /**
      * Public Methods
      */
-    public void init(int mapSize, float baseSeedProbability, int stabilizationPeriod)
+    public void init(int mapSize, float baseSeedProbability, int stabilizationPeriod, int mapScale)
     {
-        setVertices(mapSize, stabilizationPeriod);
+        setVertices(mapSize, stabilizationPeriod, mapScale);
         assignVertexNeighbors(m_worldMapVertices);
         checkForLandscapeBorders(m_worldMapVertices);
         setSeedProbability(m_worldMapVertices, baseSeedProbability);
@@ -63,7 +63,7 @@ public class WorldMapGraph : MonoBehaviour {
     /**
      * Private Members
      */
-    private void setVertices(int mapSize, int stabilizationPeriod)
+    private void setVertices(int mapSize, int stabilizationPeriod, int mapScale)
     {
         m_worldMapVertices = new WorldMapVertex[mapSize + 1, mapSize + 1];
         for (int i = 0, y = 0; y <= mapSize; y++)
@@ -71,9 +71,9 @@ public class WorldMapGraph : MonoBehaviour {
             for (int x = 0; x <= mapSize; x++, i++)
             {
                 WorldMapVertex theVertex = new WorldMapVertex();
-                theVertex.init(stabilizationPeriod);
+                theVertex.init(stabilizationPeriod, mapScale);
                 theVertex.vertexIndex = i;
-                theVertex.position = new Vector3(x, 0, y);
+                theVertex.position = new Vector3(x * mapScale, 0, y * mapScale);
                 m_worldMapVertices[y, x] = theVertex;
             }
         }

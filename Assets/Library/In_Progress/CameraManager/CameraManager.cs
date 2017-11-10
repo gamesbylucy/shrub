@@ -34,6 +34,8 @@ public class CameraManager : MonoBehaviour {
         m_cameraControllers.Add(m_firstPersonCameraController);
         m_cameras.Add(m_firstPersonCamera);
         m_firstPersonCamera.enabled = false;
+        m_firstPersonCamera.nearClipPlane = .01f;
+        m_firstPersonCamera.farClipPlane = 6000;
 
         GameObject thirdPersonCamera = new GameObject();
         thirdPersonCamera.name = "ThirdPersonCamera";

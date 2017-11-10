@@ -14,17 +14,20 @@ public class WorldMap : MonoBehaviour {
     private WorldMapPopulationMesh m_worldMapPopulationMesh;
     private WorldMapOceanMesh m_oceanMesh;
     private WorldMapGraph m_worldMapGraph;
+    private bool m_isStepping;
     
     /**
      *Public Methods
      */
-    public void init(int mapSize, float baseSeedProbability, float stepSpeed, int stabilizationPeriod)
+    public void init(int mapSize, float baseSeedProbability, float stepSpeed, int stabilizationPeriod, int mapScale)
     {
         m_worldMapPopulationMesh = gameObject.AddComponent<WorldMapPopulationMesh>();
         m_worldMapGraph = gameObject.AddComponent<WorldMapGraph>();
-        m_worldMapPopulationMesh.init(mapSize);
-        m_worldMapGraph.init(mapSize, baseSeedProbability, stabilizationPeriod);
-        InvokeRepeating("step", stepSpeed, stepSpeed);
+        m_worldMapPopulationMesh.init(mapSize, mapScale);
+        m_worldMapGraph.init(mapSize, baseSeedProbability, stabilizationPeriod, mapScale);
+
+        m_isStepping = true;
+        StartCoroutine(step(stepSpeed, mapScale));
 
         GameObject ocean = new GameObject();
         ocean.name = "Ocean";
@@ -32,7 +35,7 @@ public class WorldMap : MonoBehaviour {
         ocean.AddComponent<MeshRenderer>();
         ocean.AddComponent<MeshFilter>();
         m_oceanMesh = ocean.AddComponent<WorldMapOceanMesh>();
-        m_oceanMesh.init(mapSize);
+        m_oceanMesh.init(mapSize, mapScale);
     }
 
     /**
@@ -58,10 +61,14 @@ public class WorldMap : MonoBehaviour {
         
     }
 
-    private void step()
+    private IEnumerator step(float stepSpeed, int mapScale)
     {
-        WorldMapVertex[ , ] worldMapVertices = m_worldMapGraph.step();
-        m_worldMapPopulationMesh.updateMeshData(worldMapVertices);
+        while (m_isStepping == true)
+        {
+            WorldMapVertex[,] worldMapVertices = m_worldMapGraph.step();
+            m_worldMapPopulationMesh.updateMeshData(worldMapVertices, mapScale);
+            yield return new WaitForSeconds(stepSpeed);
+        }
     }
 
     private void OnDrawGizmos()

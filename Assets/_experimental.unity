@@ -332,9 +332,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapSize: 127
-  secondsToStabilize: 30
+  mapScale: 30
+  secondsToStabilize: 10
   baseSeedProbability: 0.2
-  stepsPerSecond: 1
+  stepsPerSecond: 12
 --- !u!23 &888593036
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -415,6 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookSensitivity: 5
+  moveSensitivity: 5
   interactController: 0
   interactKeyboard: 323
 --- !u!4 &1846214212

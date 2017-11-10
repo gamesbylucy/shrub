@@ -15,10 +15,10 @@ public class WorldMapOceanMesh : MonoBehaviour {
     /**
      * Public Methods
      */
-    public void init(int mapSize)
+    public void init(int mapSize, int mapScale)
     {
         instantiateMesh(mapSize);
-        setMeshGeometryData(mapSize);
+        setMeshGeometryData(mapSize, mapScale);
         updateMesh();
         updateMeshCollider();
         recalculateMesh();
@@ -73,12 +73,12 @@ public class WorldMapOceanMesh : MonoBehaviour {
     {
         GetComponent<MeshFilter>().mesh = m_mesh = new Mesh();
         m_meshCollider = gameObject.AddComponent<MeshCollider>();
-        m_mesh.name = "WorldMapLandscapeMesh";
+        m_mesh.name = "WorldMapOceanMesh";
         Material newMat = Resources.Load("Materials/Ocean", typeof(Material)) as Material;
         GetComponent<Renderer>().material = newMat;
     }
 
-    private void setMeshGeometryData(int mapSize)
+    private void setMeshGeometryData(int mapSize, int mapScale)
     {
         m_vertices = new Vector3[(mapSize + 1) * (mapSize + 1)];
         m_uv = new Vector2[m_vertices.Length];
@@ -90,7 +90,7 @@ public class WorldMapOceanMesh : MonoBehaviour {
         {
             for (int x = 0; x <= mapSize; x++, i++)
             {
-                m_vertices[i] = new Vector3(x, .05f, y);
+                m_vertices[i] = new Vector3(x * mapScale, .05f, y * mapScale);
                 m_uv[i] = new Vector2((float)x / mapSize, (float)y / mapSize);
                 m_tangents[i] = m_tangent;
             }
