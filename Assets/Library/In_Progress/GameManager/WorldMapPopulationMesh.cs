@@ -47,7 +47,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
             if (vertex.isPopulated)
             {
                 theVertex = m_vertices[vertex.vertexIndex];
-                theVertex.y = 1f * (mapScale/m_seaLevelAdjustment);
+                theVertex.y = 1.7f;
                 theVertices[vertex.vertexIndex] = theVertex;
             }
             else

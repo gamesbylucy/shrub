@@ -186,13 +186,13 @@ public class WorldMapVertex
                 {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y, position.z);
-                    nodeDecal.transform.localScale = baseDecalScale * (m_decalScaleModifier/m_decalScaleAdjustment);
+                    nodeDecal.transform.localScale = baseDecalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                 }
                 else
                 {
                     nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y , position.z);
-                    nodeDecal.transform.localScale = baseDecalScale * (m_decalScaleModifier / m_decalScaleAdjustment);
+                    nodeDecal.transform.localScale = baseDecalScale;
                 }
                 break;
             case Enumerations.States.Potential_Complex:
@@ -200,14 +200,14 @@ public class WorldMapVertex
                 {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y , position.z);
-                    nodeDecal.transform.localScale = baseDecalScale * (m_decalScaleModifier / m_decalScaleAdjustment);
+                    nodeDecal.transform.localScale = baseDecalScale;
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
                     setDecalColor(Color.blue);
                 }
                 else
                 {
                     nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y, position.z);
-                    nodeDecal.transform.localScale = baseDecalScale * (m_decalScaleModifier / m_decalScaleAdjustment);
+                    nodeDecal.transform.localScale = baseDecalScale;
                     setDecalColor(Color.green);
                 }
                 break;
@@ -216,7 +216,7 @@ public class WorldMapVertex
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y, position.z);
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
-                    nodeDecal.transform.localScale = new Vector3(1, complexity, 1) * (m_decalScaleModifier / m_decalScaleAdjustment);
+                    nodeDecal.transform.localScale = new Vector3(1, complexity/2, 1);
                     if (complexity == 0)
                     {
                         Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0.");
@@ -226,8 +226,8 @@ public class WorldMapVertex
                 }
                 else
                 {
-                    nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y * complexity, position.z);
-                    nodeDecal.transform.localScale = new Vector3(1, baseDecalScale.y * complexity, 1) * (m_decalScaleModifier / m_decalScaleAdjustment);
+                    nodeDecal.transform.position = new Vector3(position.x, complexity/2, position.z);
+                    nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
                     if (complexity == 0)
                     {
                         Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0 and the node already existed.");
