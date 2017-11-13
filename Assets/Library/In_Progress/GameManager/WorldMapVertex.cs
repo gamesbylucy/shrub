@@ -182,18 +182,7 @@ public class WorldMapVertex
                 nodeDecal = null;
                 break;
             case Enumerations.States.Stable:
-                if (nodeDecal == null)
-                {
-                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y, position.z);
-                    nodeDecal.transform.localScale = baseDecalScale;
-                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
-                }
-                else
-                {
-                    nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y , position.z);
-                    nodeDecal.transform.localScale = baseDecalScale;
-                }
+                nodeDecal = null;
                 break;
             case Enumerations.States.Potential_Complex:
                 if (nodeDecal == null)
