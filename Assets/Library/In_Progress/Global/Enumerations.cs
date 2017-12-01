@@ -23,11 +23,11 @@ public static class Enumerations {
 
     public enum States
     {
-        Unpopulated = 0,
-        Populated = 1,
-        Stable = 2,
-        Potential_Complex = 3,
-        Complex = 4,
+        Ocean = 0,
+        UnstableLand = 1,
+        StableLand = 2,
+        Potential_Complex_Land = 3,
+        Complex_Land = 4,
         Border = 5,
     }
 

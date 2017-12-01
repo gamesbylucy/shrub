@@ -54,7 +54,7 @@ public class InputManager : MonoBehaviour {
                 {
                     foreach (IButtonInput buttonInput in buttonInputs)
                     {
-                        buttonInput.processInputHeld (vKey);
+                        buttonInput.processInputHeld(vKey);
                     }
                 }
             }

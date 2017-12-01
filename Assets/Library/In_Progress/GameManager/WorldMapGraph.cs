@@ -103,7 +103,7 @@ public class WorldMapGraph : MonoBehaviour {
         */
         foreach (WorldMapVertex vertex in m_worldMapVertices)
         {
-            if (vertex.state == Enumerations.States.Potential_Complex)
+            if (vertex.state == Enumerations.States.Potential_Complex_Land)
             {
                 potentialComplexes.Add(vertex);
             }
@@ -124,7 +124,7 @@ public class WorldMapGraph : MonoBehaviour {
         {
             foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
             {
-                if (neighbor.state == Enumerations.States.Potential_Complex)
+                if (neighbor.state == Enumerations.States.Potential_Complex_Land)
                 {
                     if (neighbor.rank > potentialComplex.rank)
                     {
@@ -146,7 +146,7 @@ public class WorldMapGraph : MonoBehaviour {
                         potentialComplex.complexity += 2;
                     }
                 }
-                else if (neighbor.state == Enumerations.States.Stable)
+                else if (neighbor.state == Enumerations.States.StableLand)
                 {
                     potentialComplex.complexity++;
                 }
@@ -158,7 +158,7 @@ public class WorldMapGraph : MonoBehaviour {
             }
             else
             {
-                potentialComplex.state = Enumerations.States.Complex;
+                potentialComplex.state = Enumerations.States.Complex_Land;
                 foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
                 {
                     neighbor.state = Enumerations.States.Border;
@@ -254,7 +254,7 @@ public class WorldMapGraph : MonoBehaviour {
                 {
                     if ((float)ShrubUtils.random.NextDouble() < node.initialSeedProbability)
                     {
-                        node.state = Enumerations.States.Populated;
+                        node.state = Enumerations.States.UnstableLand;
                     }
                 }
                 break;

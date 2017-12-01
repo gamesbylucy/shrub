@@ -9,13 +9,13 @@ public class WorldMapVertex
     /****************************************************************************************************
     * Public Members
     ****************************************************************************************************/
-    public bool isPopulated = false;
-    public bool isStable = false;
-    public bool isStableNextTick = false;
-    public bool isComplex = false;
+    public bool isLand = false;
+    public bool isStableLand = false;
+    public bool isStableLandNextTick = false;
+    public bool isComplexLand = false;
     public bool isLocked = false;
     public float rank;
-    public Enumerations.States state = Enumerations.States.Unpopulated;
+    public Enumerations.States state = Enumerations.States.Ocean;
     public int vertexIndex; //index of associated vertex
     public int complexity = 0;
     public float initialSeedProbability;
@@ -27,7 +27,8 @@ public class WorldMapVertex
     /****************************************************************************************************
     * Private Members
     ****************************************************************************************************/
-    private static Vector3 baseDecalScale = new Vector3(1, 1, 1);
+    private static Vector3 m_baseDecalScale = new Vector3(1, 5, 1);
+    private static float m_baseDecalYOffset = .2f;
     private int m_stabilizationCount = 0;
     private int m_decalScaleAdjustment = 4;
     private int m_stabilizationPeriod;
@@ -51,32 +52,32 @@ public class WorldMapVertex
     {
         if (isLocked == false)
         {
-            if (isPopulated == true)
+            if (isLand == true)
             {
-                if (!isStable && (getNumPopulatedNeighbors() < 2 || getNumPopulatedNeighbors() > 3))
+                if (!isStableLand && (getNumPopulatedNeighbors() < 2 || getNumPopulatedNeighbors() > 3))
                 {
                     m_stabilizationCount = 0;
-                    state = Enumerations.States.Unpopulated;
+                    state = Enumerations.States.Ocean;
                     return;
                 }
 
-                if (isComplex)
+                if (isComplexLand)
                 {
-                    state = Enumerations.States.Complex;
+                    state = Enumerations.States.Complex_Land;
                     return;
                 }
                 else
                 {
-                    if (isStable)
+                    if (isStableLand)
                     {
                         if (getNumStableNeighbors() >= 3)
                         {
-                            state = Enumerations.States.Potential_Complex;
+                            state = Enumerations.States.Potential_Complex_Land;
                             return;
                         }
                         else
                         {
-                            state = Enumerations.States.Stable;
+                            state = Enumerations.States.StableLand;
                             return;
                         }
                     }
@@ -84,7 +85,7 @@ public class WorldMapVertex
                     {
                         if (m_stabilizationCount >= m_stabilizationPeriod)
                         {
-                            state = Enumerations.States.Stable;
+                            state = Enumerations.States.StableLand;
                             return;
                         }
                     }
@@ -107,7 +108,7 @@ public class WorldMapVertex
                 }*/
 
                 m_stabilizationCount++;
-                state = Enumerations.States.Populated;
+                state = Enumerations.States.UnstableLand;
                 return;
             }
             else
@@ -115,12 +116,12 @@ public class WorldMapVertex
                 if (getNumPopulatedNeighbors() == 3)
                 {
                     m_stabilizationCount++;
-                    state = Enumerations.States.Populated;
+                    state = Enumerations.States.UnstableLand;
                     return;
                 }
             }
             m_stabilizationCount = 0;
-            state = Enumerations.States.Unpopulated;
+            state = Enumerations.States.Ocean;
             return;
         }
     }
@@ -130,40 +131,40 @@ public class WorldMapVertex
         Enumerations.States theState = state;
         switch (theState)
         {
-            case Enumerations.States.Unpopulated:
-                isPopulated = false;
-                isStable = false;
-                isComplex = false;
+            case Enumerations.States.Ocean:
+                isLand = false;
+                isStableLand = false;
+                isComplexLand = false;
                 isLocked = false;
                 break;
-            case Enumerations.States.Populated:
-                isPopulated = true;
-                isStable = false;
-                isComplex = false;
+            case Enumerations.States.UnstableLand:
+                isLand = true;
+                isStableLand = false;
+                isComplexLand = false;
                 isLocked = false;
                 break;
-            case Enumerations.States.Stable:
-                isPopulated = true;
-                isStable = true;
-                isComplex = false;
+            case Enumerations.States.StableLand:
+                isLand = true;
+                isStableLand = true;
+                isComplexLand = false;
                 isLocked = false;
                 break;
-            case Enumerations.States.Potential_Complex:
-                isPopulated = true;
-                isStable = true;
-                isComplex = false;
+            case Enumerations.States.Potential_Complex_Land:
+                isLand = true;
+                isStableLand = true;
+                isComplexLand = false;
                 isLocked = false;
                 break;
-            case Enumerations.States.Complex:
-                isPopulated = true;
-                isStable = true;
-                isComplex = true;
+            case Enumerations.States.Complex_Land:
+                isLand = true;
+                isStableLand = true;
+                isComplexLand = true;
                 isLocked = false;
                 break;
             case Enumerations.States.Border:
-                isPopulated = false;
-                isStable = false;
-                isComplex = false;
+                isLand = false;
+                isStableLand = false;
+                isComplexLand = false;
                 isLocked = true;
                 break;
         }
@@ -175,37 +176,24 @@ public class WorldMapVertex
         Enumerations.States theState = state;
         switch (theState)
         {
-            case Enumerations.States.Unpopulated:
+            case Enumerations.States.Ocean:
                 nodeDecal = null;
                 break;
-            case Enumerations.States.Populated:
+            case Enumerations.States.UnstableLand:
                 nodeDecal = null;
                 break;
-            case Enumerations.States.Stable:
+            case Enumerations.States.StableLand:
                 nodeDecal = null;
                 break;
-            case Enumerations.States.Potential_Complex:
-                if (nodeDecal == null)
-                {
-                    nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y , position.z);
-                    nodeDecal.transform.localScale = baseDecalScale;
-                    nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
-                    setDecalColor(Color.blue);
-                }
-                else
-                {
-                    nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y, position.z);
-                    nodeDecal.transform.localScale = baseDecalScale;
-                    setDecalColor(Color.green);
-                }
+            case Enumerations.States.Potential_Complex_Land:
+                nodeDecal = null;
                 break;
-            case Enumerations.States.Complex:
+            case Enumerations.States.Complex_Land:
                 if (nodeDecal == null) {
                     nodeDecal = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeDecal.transform.position = new Vector3(position.x, baseDecalScale.y, position.z);
+                    nodeDecal.transform.position = new Vector3(position.x, m_baseDecalScale.y - (m_baseDecalScale.y * m_baseDecalYOffset), position.z);
                     nodeDecal.name = "Decal for node @ " + nodeDecal.transform.position;
-                    nodeDecal.transform.localScale = new Vector3(1, complexity/2, 1);
+                    nodeDecal.transform.localScale = m_baseDecalScale;
                     if (complexity == 0)
                     {
                         Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0.");
@@ -215,8 +203,8 @@ public class WorldMapVertex
                 }
                 else
                 {
-                    nodeDecal.transform.position = new Vector3(position.x, complexity/2, position.z);
-                    nodeDecal.transform.localScale = new Vector3(1, complexity, 1);
+                    nodeDecal.transform.position = new Vector3(position.x, m_baseDecalScale.y - (m_baseDecalScale.y * m_baseDecalYOffset), position.z);
+                    nodeDecal.transform.localScale = m_baseDecalScale;
                     if (complexity == 0)
                     {
                         Debug.Log("The complexity for node " + nodeDecal.transform.position + " was 0 and the node already existed.");
@@ -240,7 +228,7 @@ public class WorldMapVertex
         int numStableNeighbors = 0;
         foreach (WorldMapVertex neighbor in neighbors)
         {
-            if (neighbor.isStable == true)
+            if (neighbor.isStableLand == true)
             {
                 numStableNeighbors++;
             }
@@ -253,7 +241,7 @@ public class WorldMapVertex
         int numComplexNeighbors = 0;
         foreach (WorldMapVertex neighbor in neighbors)
         {
-            if (neighbor.isComplex == true)
+            if (neighbor.isComplexLand == true)
             {
                 numComplexNeighbors++;
             }
@@ -273,7 +261,7 @@ public class WorldMapVertex
         int numPopulated = 0;
         foreach (WorldMapVertex neighbor in neighbors)
         {
-            if (neighbor.isPopulated == true)
+            if (neighbor.isLand == true)
             {
                 numPopulated++;
             }

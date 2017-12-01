@@ -303,7 +303,7 @@ public class LandscapeBuilder : MonoBehaviour{
                 {
                     if ((float)ShrubUtils.random.NextDouble() < node.initialSeedProbability)
                     {
-                        node.state = Enumerations.States.Populated;
+                        node.state = Enumerations.States.UnstableLand;
                     }
                 }
                 break;
@@ -358,7 +358,7 @@ public class LandscapeBuilder : MonoBehaviour{
         */
         foreach (WorldMapVertex node in m_nodes)
         {
-            if (node.state == Enumerations.States.Potential_Complex)
+            if (node.state == Enumerations.States.Potential_Complex_Land)
             {
                 potentialComplexes.Add(node);
             }
@@ -379,7 +379,7 @@ public class LandscapeBuilder : MonoBehaviour{
         {
             foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
             {
-                if (neighbor.state == Enumerations.States.Potential_Complex)
+                if (neighbor.state == Enumerations.States.Potential_Complex_Land)
                 {
                     if (neighbor.rank > potentialComplex.rank)
                     {
@@ -401,7 +401,7 @@ public class LandscapeBuilder : MonoBehaviour{
                         potentialComplex.complexity += 2;
                     }
                 }
-                else if (neighbor.state == Enumerations.States.Stable)
+                else if (neighbor.state == Enumerations.States.StableLand)
                 {
                     potentialComplex.complexity++;
                 }
@@ -413,7 +413,7 @@ public class LandscapeBuilder : MonoBehaviour{
             }
             else
             {
-                potentialComplex.state = Enumerations.States.Complex;
+                potentialComplex.state = Enumerations.States.Complex_Land;
                 foreach (WorldMapVertex neighbor in potentialComplex.neighbors)
                 {
                     neighbor.state = Enumerations.States.Border;
@@ -428,7 +428,7 @@ public class LandscapeBuilder : MonoBehaviour{
         Vector3[] theVertices = new Vector3[m_vertices.Length];
         foreach (WorldMapVertex node in m_nodes)
         {
-            if (node.isPopulated == true)
+            if (node.isLand == true)
             {
                 Vector3 theVertex = m_vertices[node.vertexIndex];
                 theVertex.y = 1;

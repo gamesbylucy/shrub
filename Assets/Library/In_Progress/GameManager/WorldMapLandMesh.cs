@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldMapPopulationMesh : MonoBehaviour {
+public class WorldMapLandMesh : MonoBehaviour {
     /**
     * Public Members
     */
@@ -44,7 +44,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
         Vector3 theVertex;
         foreach (WorldMapVertex vertex in vertices)
         {
-            if (vertex.isPopulated)
+            if (vertex.isLand)
             {
                 theVertex = m_vertices[vertex.vertexIndex];
                 theVertex.y = 1.7f;
@@ -56,7 +56,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
 
                 foreach (WorldMapVertex neighbor in vertex.neighbors)
                 {
-                    if (neighbor.isComplex)
+                    if (neighbor.isComplexLand)
                     {
                         hasComplexNeighbor = true;
                         break;
@@ -87,6 +87,7 @@ public class WorldMapPopulationMesh : MonoBehaviour {
     {
         GetComponent<MeshFilter>().mesh = m_mesh = new Mesh();
         m_meshCollider = gameObject.AddComponent<MeshCollider>();
+        m_meshCollider.convex = true;
         m_mesh.name = "WorldMapPopulationMesh";
         Material newMat = Resources.Load("Materials/Grass", typeof(Material)) as Material;
         GetComponent<Renderer>().material = newMat;

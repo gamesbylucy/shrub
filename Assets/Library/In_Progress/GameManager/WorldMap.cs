@@ -11,7 +11,7 @@ public class WorldMap : MonoBehaviour {
     /**
      *Private Members
      */
-    private WorldMapPopulationMesh m_worldMapPopulationMesh;
+    private WorldMapLandMesh m_worldMapPopulationMesh;
     private WorldMapOceanMesh m_oceanMesh;
     private WorldMapGraph m_worldMapGraph;
     private bool m_isStepping;
@@ -21,7 +21,7 @@ public class WorldMap : MonoBehaviour {
      */
     public void init(int mapSize, float baseSeedProbability, float stepSpeed, int stabilizationPeriod, int mapScale)
     {
-        m_worldMapPopulationMesh = gameObject.AddComponent<WorldMapPopulationMesh>();
+        m_worldMapPopulationMesh = gameObject.AddComponent<WorldMapLandMesh>();
         m_worldMapGraph = gameObject.AddComponent<WorldMapGraph>();
         m_worldMapPopulationMesh.init(mapSize, mapScale);
         m_worldMapGraph.init(mapSize, baseSeedProbability, stabilizationPeriod, mapScale);
